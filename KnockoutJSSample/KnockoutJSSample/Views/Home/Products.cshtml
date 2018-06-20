@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "Products";
+}
+
+<h2>Products</h2>
+<small><a href="@Url.Action("AddProduct")">Add new</a></small>
+@*<div data-bind="if: loadingData()">list</div>*@
+@section scripts
+{
+    <script>
+        window.view = 'Index';
+    </script>
+    <script src="~/App_Scripts/products.js" type="text/javascript"></script>
+}
+
+<div class="well well-lg">
+    @*<ul class="list-unstyled" data-bind="foreach : products">
+            <li class="list-group-item">
+                <span data-bind="text : Id"></span>. <span data-bind="text : Name"></span> : <span data-bind="text : Category.Name"></span>
+            </li>
+        </ul>*@
+
+    <table class="table table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody data-bind="foreach : products">
+            <tr>
+                <td><a data-bind="attr : { href : '@Url.Action("AddProduct")/' + Id, title : 'Edit ' + Name }, text : Id"></a></td>
+                <td data-bind="text : Name"></td>
+                <td data-bind="text : Category.Name"></td>
+                <td>
+                    <button class="btn btn-group-sm btn-danger" data-bind="click : removeProduct">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
