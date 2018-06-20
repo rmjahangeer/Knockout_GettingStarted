@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnockoutJSSample", "Knockou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{FEC774EA-F07D-4C24-8AAA-D25525D633FB}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{8BFD47DE-7A77-451A-AF0E-DC50BAEBE7DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,12 @@ Global
 		{FEC774EA-F07D-4C24-8AAA-D25525D633FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEC774EA-F07D-4C24-8AAA-D25525D633FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEC774EA-F07D-4C24-8AAA-D25525D633FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BFD47DE-7A77-451A-AF0E-DC50BAEBE7DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BFD47DE-7A77-451A-AF0E-DC50BAEBE7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BFD47DE-7A77-451A-AF0E-DC50BAEBE7DF}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{8BFD47DE-7A77-451A-AF0E-DC50BAEBE7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BFD47DE-7A77-451A-AF0E-DC50BAEBE7DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BFD47DE-7A77-451A-AF0E-DC50BAEBE7DF}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
