@@ -54,3 +54,6 @@ select {
     float: none;
 }
 
+table th.sortable {
+    cursor: pointer;
+}

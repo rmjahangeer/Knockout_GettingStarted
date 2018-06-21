@@ -9,11 +9,24 @@
 }
 
 <div class="well well-lg">
+    <div class="col-md-12">
+        <div class="form-group">
+            <input type="text" placeholder="Type to filter categories..." class="form-control" data-bind="textInput : filter" />
+        </div>
+    </div>
     <table class="table table-hover table-responsive">
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Name</th>
+            <th class="sortable" data-bind="click : sort.bind($data, 'id', sortParams())">
+                Id
+                <i data-bind="visible : (sortParams().sort() == 'id' && !sortParams().asc())" class="glyphicon glyphicon-arrow-down text-primary"></i>
+                <i data-bind="visible : sortParams().sort() == 'id' && sortParams().asc()"    class="glyphicon glyphicon-arrow-up text-primary"></i>
+            </th>
+            <th class="sortable" data-bind="click : sort.bind($data, 'name', sortParams())">
+                Name 
+                <i data-bind="visible : (sortParams().sort() == 'name' && !sortParams().asc())" class="glyphicon glyphicon-arrow-down text-primary"></i>
+                <i data-bind="visible : sortParams().sort() == 'name' && sortParams().asc()"    class="glyphicon glyphicon-arrow-up text-primary"></i>
+            </th>
         </tr>
         </thead>
         <tbody data-bind="foreach : categories">
@@ -25,6 +38,11 @@
                     <i class="glyphicon glyphicon-trash"></i>
                 </button>
             </td>
+        </tr>
+        </tbody>
+        <tbody data-bind="if : categories().length == 0">
+        <tr>
+            <td class="text-center" colspan="3">No data found !</td>
         </tr>
         </tbody>
     </table>

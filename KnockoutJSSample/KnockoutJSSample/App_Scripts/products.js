@@ -1,4 +1,4 @@
-﻿(function ($, ko) {
+﻿(function ($, ko, _) {
 
     ko.bindingHandlers.select2 = {
         init: function (el, valueAccessor, allBindingsAccessor, viewModel) {
@@ -48,9 +48,26 @@
 
     var ViewModel = function () {
         var self = this;
+        var products = [];
         self.products = ko.observableArray([]);
         self.loadingData = ko.observable(true);
         self.selectedCategory = ko.observable(null);
+        self.filter = ko.observable('');
+
+        self.filter.subscribe(function (value) {
+            if (!value) {
+                self.products(products);
+                return;
+            }
+
+            value = value.toLowerCase();
+            var filteredList = products.filter(function (x) {
+                return (x.Id.toString().toLowerCase().indexOf(value) !== -1 ||
+                    x.Name.toLowerCase().indexOf(value) !== -1 ||
+                    x.CategoryName.toLowerCase().indexOf(value) !== -1);
+            });
+            self.products(filteredList);
+        });
 
         self.removeProduct = function (item) {
             console.log('I am in removeProduct()', item);
@@ -77,12 +94,55 @@
             }
         };
 
+        self.sort = function (s, asc) {
+            // check if the sorting is being done on same column 
+            // reset the sorting dir to `asc` if column changed
+            if (self.sortParams().sort() !== s) {
+                asc.asc(true);
+                asc.dir('asc');
+            } else {
+                asc.asc(!asc.asc());
+                asc.dir(asc.asc() ? 'asc' : 'desc');
+            }
+
+            // update the sorting observable
+            asc.sort(s);
+            self.sortParams(asc);
+            console.log('sort by', s, ko.toJS(asc));
+
+            // using `lodash` sort the list based on column
+            switch (s) {
+                case 'id':
+                    var list = _.orderBy(self.products(), 'Id', asc.dir());
+                    self.products(list);
+                    break;
+                case 'name':
+                    var list = _.orderBy(self.products(), 'Name', asc.dir());
+                    self.products(list);
+                    break;
+                case 'category':
+                    var list = _.orderBy(self.products(), 'CategoryName', asc.dir());
+                    self.products(list);
+                    break;
+
+
+                default:
+            }
+        }
+
+        self.sortParams = ko.observable({
+            sort: ko.observable('id'),
+            asc: ko.observable(true),
+            dir: ko.observable('asc')
+        });
+
         var loadProducts = function () {
             self.loadingData(true);
             $.getJSON('/api/product').done(function (data) {
                 console.log('api products', data);
                 data.forEach(function (x) {
                     self.products.push(x);
+                    products.push(x);
                 });
                 self.loadingData(false);
             });
@@ -99,6 +159,6 @@
     }
     ko.applyBindings(new ViewModel());
 
-})($, ko);
+})($, ko, _);
 
 
