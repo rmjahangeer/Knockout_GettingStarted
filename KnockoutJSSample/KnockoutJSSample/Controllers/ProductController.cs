@@ -37,8 +37,6 @@ namespace KnockoutJSSample.Controllers
         public async Task<IHttpActionResult> Post([FromBody]ProductModel model)
         {
             model.CreatedOn = DateTime.UtcNow;
-            model.ModifiedBy = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "";
-            model.ModifiedOn = DateTime.UtcNow;
             model.CreatedBy = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "";
             _db.Products.Add(model.Map());
             await _db.SaveChangesAsync();

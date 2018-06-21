@@ -120,6 +120,10 @@
                     var list = _.orderBy(self.products(), 'Name', asc.dir());
                     self.products(list);
                     break;
+                case 'price':
+                    var list = _.orderBy(self.products(), 'Price', asc.dir());
+                    self.products(list);
+                    break;
                 case 'category':
                     var list = _.orderBy(self.products(), 'CategoryName', asc.dir());
                     self.products(list);
