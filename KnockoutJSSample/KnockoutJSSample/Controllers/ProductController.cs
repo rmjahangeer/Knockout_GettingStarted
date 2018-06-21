@@ -1,17 +1,19 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using KnockoutJSSample.Mappers;
 using KnockoutJSSample.Models;
+using Microsoft.AspNet.Identity;
 using Repository;
 
 namespace KnockoutJSSample.Controllers
 {
     public class ProductController : ApiController
     {
-        private readonly todoAppEntities _db = new todoAppEntities();
+        private readonly TodoAppEntities _db = new TodoAppEntities();
         // GET api/<controller>
         public async Task<IHttpActionResult> Get()
         {
@@ -34,6 +36,10 @@ namespace KnockoutJSSample.Controllers
         // POST api/<controller>
         public async Task<IHttpActionResult> Post([FromBody]ProductModel model)
         {
+            model.CreatedOn = DateTime.UtcNow;
+            model.ModifiedBy = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "";
+            model.ModifiedOn = DateTime.UtcNow;
+            model.CreatedBy = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "";
             _db.Products.Add(model.Map());
             await _db.SaveChangesAsync();
             return Ok();
@@ -47,6 +53,11 @@ namespace KnockoutJSSample.Controllers
             {
                 product.CategoryId = model.CategoryId;
                 product.Name = model.Name;
+                product.Price = model.Price;
+                product.Description = model.Description;
+                product.Image = model.Image;
+                product.ModifiedBy = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "";
+                product.ModifiedOn = DateTime.UtcNow;
                 _db.Products.AddOrUpdate(product);
                 await _db.SaveChangesAsync();
                 return Ok();

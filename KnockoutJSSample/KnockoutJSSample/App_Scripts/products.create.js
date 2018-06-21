@@ -50,10 +50,11 @@
         }
     };
 
-    var Product = function (id, name, categoryId) {
+    var Product = function (id, name, categoryId, price) {
         this.Id = ko.observable(id || 0);
         this.Name = ko.observable(name || '');
         this.CategoryId = ko.observable(categoryId || 0);
+        this.Price = ko.observable(price || 0);
     }
 
     var Category = function (id, name, disabled, children) {
@@ -66,9 +67,9 @@
     Category.prototype.toString = function () {
         return this.text + "(" + this.id + ")";
     };
-    
+
     Product.prototype.isValid = function () {
-        return this.Name() !== '' && this.CategoryId();
+        return this.Name() !== '' && this.CategoryId() && this.Price();
     };
 
     var ProductViewModel = function () {
@@ -114,7 +115,7 @@
                     self.loadingData(true);
                 },
                 success: function (x) {
-                    self.product(new Product(x.Id, x.Name, x.CategoryId));
+                    self.product(new Product(x.Id, x.Name, x.CategoryId, x.Price));
                 },
                 complete: function () {
                     self.loadingData(false);
@@ -128,16 +129,16 @@
         var onComplete = function () {
             self.loadingData(false);
         }
-        
+
         var onSuccess = function (data) {
             alert('Saved !');
             self.product(new Product());
         }
-        
+
         var onError = function (err) {
             console.log(err);
         }
-        
+
         var onBeforeSend = function () {
             self.loadingData(true);
         }

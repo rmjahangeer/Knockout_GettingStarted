@@ -11,7 +11,7 @@ namespace KnockoutJSSample.Controllers
 {
     public class CategoryController : ApiController
     {
-        private readonly todoAppEntities _db = new todoAppEntities();
+        private readonly TodoAppEntities _db = new TodoAppEntities();
         // GET api/<controller>
         public async Task<IHttpActionResult> Get()
         {

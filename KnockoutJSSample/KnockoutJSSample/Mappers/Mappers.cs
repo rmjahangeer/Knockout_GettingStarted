@@ -1,4 +1,5 @@
 ﻿using KnockoutJSSample.Models;
+using Models.DomainModels;
 using Repository;
 
 namespace KnockoutJSSample.Mappers
@@ -11,7 +12,14 @@ namespace KnockoutJSSample.Mappers
             {
                 Id = source.Id,
                 Name = source.Name,
-                CategoryId = source.CategoryId
+                CategoryId = source.CategoryId,
+                CreatedOn = source.CreatedOn,
+                Price = source.Price,
+                CreatedBy = source.CreatedBy,
+                Description = source.Description,
+                Image = source.Image,
+                ModifiedBy = source.ModifiedBy,
+                ModifiedOn = source.CreatedOn
             };
         }
 
@@ -23,7 +31,14 @@ namespace KnockoutJSSample.Mappers
                 Name = source.Name,
                 Category = source.Category?.Map(),
                 CategoryId = source.CategoryId,
-                CategoryName = source.Category?.Name
+                CategoryName = source.Category?.Name,
+                Price = source.Price,
+                CreatedOn = source.CreatedOn,
+                CreatedBy = source.CreatedBy,
+                Description = source.Description,
+                Image = source.Image,
+                ModifiedBy = source.ModifiedBy,
+                ModifiedOn = source.CreatedOn
             };
         }
 
@@ -32,7 +47,9 @@ namespace KnockoutJSSample.Mappers
             return new Category
             {
                 Id = source.Id,
-                Name = source.Name
+                Name = source.Name,
+                ParentId = source.ParentId,
+                Image = source.Image
             };
         }
 
@@ -41,7 +58,10 @@ namespace KnockoutJSSample.Mappers
             return new CategoryModel
             {
                 Id = source.Id,
-                Name = source.Name
+                Name = source.Name,
+                ParentId = source.ParentId,
+                Image = source.Image
+
             };
         }
     }
