@@ -1,15 +1,15 @@
 ﻿(function ($, ko) {
     var url = '/api/category/';
-    
-    var Category = function (id, name, categoryId) {
+
+    var Category = function (id, name) {
         this.Id = ko.observable(id || 0);
         this.Name = ko.observable(name || '');
     }
 
     Category.prototype.toString = function () {
-        return this.text + "(" + this.id + ")";
+        return this.Name();
     };
-    
+
     Category.prototype.isValid = function () {
         return this.Name() !== '';
     };
@@ -20,7 +20,7 @@
         self.category = ko.observable(new Category());
 
         self.isFormValid = ko.computed(function () {
-            return self.category().isValid(); //self.product().Name() && self.product().CategoryId();
+            return self.category().isValid();
         });
 
         var getCategory = function (id) {
@@ -31,7 +31,7 @@
                     self.loadingData(true);
                 },
                 success: function (x) {
-                    self.product(new Category(x.Name));
+                    self.category(new Category(0, x.Name));
                 },
                 complete: function () {
                     self.loadingData(false);
@@ -45,16 +45,16 @@
         var onComplete = function () {
             self.loadingData(false);
         }
-        
+
         var onSuccess = function (data) {
             alert('Saved !');
             self.category(new Category());
         }
-        
+
         var onError = function (err) {
             console.log(err);
         }
-        
+
         var onBeforeSend = function () {
             self.loadingData(true);
         }

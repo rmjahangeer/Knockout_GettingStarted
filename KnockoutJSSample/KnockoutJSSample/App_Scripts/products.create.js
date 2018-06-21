@@ -75,18 +75,12 @@
         var self = this;
         self.loadingData = ko.observable(true);
         self.productName = ko.observable('');
-        //self.categoriesList = [];
         self.categoriesList = ko.observableArray([/*new Category(5, "asd"), new Category(6, "iuyiuh")*/]);
         self.selectedCategory = ko.observable(null);
         self.product = ko.observable(new Product());
 
-        //self.format = function (state) {
-        //    var originalOption = state.element;
-        //    return state.Name.toUpperCase();
-        //}
-
         self.isFormValid = ko.computed(function () {
-            return self.product().isValid(); //self.product().Name() && self.product().CategoryId();
+            return self.product().isValid();
         });
 
         var loadCategories = function () {

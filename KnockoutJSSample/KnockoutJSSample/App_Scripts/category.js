@@ -1,5 +1,5 @@
 ﻿(function ($, ko) {
-
+    var url = '/api/category';
     var ViewModel = function () {
         var self = this;
         self.categories = ko.observableArray([]);
@@ -11,7 +11,7 @@
             var isDeleteConfirmed = confirm('Are you sure you want to remove this ?');
             if (isDeleteConfirmed) {
                 $.ajax({
-                    url: '/api/category/' + item.Id,
+                    url: url + '/' + item.Id,
                     method: 'delete',
                     beforeSend: function () {
                         self.loadingData(true);
@@ -33,11 +33,13 @@
 
         var loadCategories = function () {
             self.loadingData(true);
-            $.getJSON('/api/category').done(function (data) {
+            $.getJSON(url).done(function (data) {
                 console.log('api category', data);
                 data.forEach(function (x) {
                     self.categories.push(x);
                 });
+                self.loadingData(false);
+            }).fail(function() {
                 self.loadingData(false);
             });
         }

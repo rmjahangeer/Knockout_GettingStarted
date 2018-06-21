@@ -18,7 +18,7 @@
         </thead>
         <tbody data-bind="foreach : categories">
         <tr>
-            <td><a data-bind="attr : { href : '@Url.Action("AddProduct")/' + Id, title : 'Edit ' + Name }, text : Id"></a></td>
+            <td><a data-bind="attr : { href : '@Url.Action("AddCategory")/' + Id, title : 'Edit ' + Name }, text : Id"></a></td>
             <td data-bind="text : Name"></td>
             <td>
                 <button class="btn btn-group-sm btn-danger" data-bind="click : remove">
