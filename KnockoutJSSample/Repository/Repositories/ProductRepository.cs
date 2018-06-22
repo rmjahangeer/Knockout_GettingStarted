@@ -80,19 +80,22 @@ namespace Repository.Repositories
             {
                 _db.Products.Add(model);
             }
-
-            // update case
-            var product = await _db.Products.FindAsync(model.Id);
-            if (product != null)
+            else
             {
-                product.CategoryId = model.CategoryId;
-                product.Name = model.Name;
-                product.Price = model.Price;
-                product.Description = model.Description;
-                product.Image = model.Image;
-                product.ModifiedBy = model.ModifiedBy;
-                product.ModifiedOn = DateTime.UtcNow;
-                _db.Products.AddOrUpdate(product);
+                // update case
+                var product = await _db.Products.FindAsync(model.Id);
+                if (product != null)
+                {
+                    product.CategoryId = model.CategoryId;
+                    product.Name = model.Name;
+                    product.Price = model.Price;
+                    product.Description = model.Description;
+                    product.Image = model.Image;
+                    product.ModifiedBy = model.ModifiedBy;
+                    product.ModifiedOn = DateTime.UtcNow;
+                    product.ProductImages = model.ProductImages;
+                    _db.Products.AddOrUpdate(product);
+                }
             }
             await _db.SaveChangesAsync();
             return model;

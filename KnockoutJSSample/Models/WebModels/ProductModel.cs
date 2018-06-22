@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Models.WebModels
 {
     
@@ -15,6 +17,7 @@ namespace Models.WebModels
         public System.DateTime ModifiedOn { get; set; }
         public string ModifiedBy { get; set; }
         public CategoryModel Category { get; set; }
+        public List<ProductImageModel> ProductImages { get; set; }
     
     }
 }

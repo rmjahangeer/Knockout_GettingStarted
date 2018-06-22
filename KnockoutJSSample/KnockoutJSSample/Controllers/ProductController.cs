@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
+using Models.DomainModels;
 using Models.Mappers;
 using Models.RequestModels;
 using Models.ResponseModels;
 using Models.WebModels;
+using Newtonsoft.Json;
 using Repository.Repositories;
 
 namespace KnockoutJSSample.Controllers
@@ -49,8 +54,23 @@ namespace KnockoutJSSample.Controllers
         }
 
         // POST api/<controller>
-        public async Task<IHttpActionResult> Post([FromBody]ProductModel model)
+        public async Task<IHttpActionResult> Post()
         {
+            var provider = await Request.Content.ReadAsMultipartAsync(new InMemoryMultipartFormDataStreamProvider());
+            //access form data
+            NameValueCollection formData = provider.FormData;
+            var files = Convert.ToInt32(formData["FilesCount"]);
+            var images = new List<ProductImageModel>();
+            for (int i = 1; i <= files; i++)
+            {
+                images.Add(new ProductImageModel
+                {
+                    Image = formData[$"FilePath-{i}"]
+                });
+            }
+            var data = formData["data"];
+            var model = JsonConvert.DeserializeObject<ProductModel>(data);
+            model.ProductImages = images;
             model.CreatedOn = DateTime.UtcNow;
             model.CreatedBy = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "";
             await _repository.SaveOrUpdate(model.Map());
@@ -58,8 +78,23 @@ namespace KnockoutJSSample.Controllers
         }
 
         // PUT api/<controller>/5
-        public async Task<IHttpActionResult> Put(int id, [FromBody]ProductModel model)
+        public async Task<IHttpActionResult> Put(int id)
         {
+            var provider = await Request.Content.ReadAsMultipartAsync(new InMemoryMultipartFormDataStreamProvider());
+            //access form data
+            NameValueCollection formData = provider.FormData;
+            var files = Convert.ToInt32(formData["FilesCount"]);
+            var images = new List<ProductImageModel>();
+            for (int i = 0; i < files; i++)
+            {
+                images.Add(new ProductImageModel
+                {
+                    Image = formData[$"FilePath-{i}"]
+                });
+            }
+            var data = formData["data"];
+            var model = JsonConvert.DeserializeObject<ProductModel>(data);
+            model.ProductImages = images;
             model.ModifiedOn = DateTime.UtcNow;
             model.ModifiedBy = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "";
             await _repository.SaveOrUpdate(model.Map());

@@ -19,7 +19,8 @@ namespace Models.Mappers
                 Description = source.Description,
                 Image = source.Image,
                 ModifiedBy = source.ModifiedBy,
-                ModifiedOn = source.CreatedOn
+                ModifiedOn = source.CreatedOn,
+                ProductImages = source.ProductImages.Select(x=>x.Map()).ToList()
             };
         }
 
@@ -38,7 +39,8 @@ namespace Models.Mappers
                 Description = source.Description,
                 Image = source.Image,
                 ModifiedBy = source.ModifiedBy,
-                ModifiedOn = source.CreatedOn
+                ModifiedOn = source.CreatedOn,
+                ProductImages = source.ProductImages.Select(x => x.Map()).ToList()
             };
         }
 
@@ -74,6 +76,26 @@ namespace Models.Mappers
                 Image = source.Image,
                 Children = source.ChildCategories?.ToList().Select(x=>x.Map()).ToList(),
                 ParentCategory = source.MainCategory?.Name
+            };
+        }
+
+        public static ProductImageModel Map(this ProductImage source)
+        {
+            return new ProductImageModel
+            {
+                Id = source.Id,
+                Image = source.Image,
+                ProductId = source.ProductId
+            };
+        }
+
+        public static ProductImage Map(this ProductImageModel source)
+        {
+            return new ProductImage
+            {
+                Id = source.Id,
+                Image = source.Image,
+                ProductId = source.ProductId
             };
         }
     }

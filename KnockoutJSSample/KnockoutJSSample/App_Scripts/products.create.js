@@ -75,6 +75,7 @@
     var ProductViewModel = function () {
         var self = this;
         self.loadingData = ko.observable(true);
+        self.imageFiles = ko.observable([]);
         self.productName = ko.observable('');
         self.categoriesList = ko.observableArray([/*new Category(5, "asd"), new Category(6, "iuyiuh")*/]);
         self.selectedCategory = ko.observable(null);
@@ -83,6 +84,26 @@
         self.isFormValid = ko.computed(function () {
             return self.product().isValid();
         });
+
+        self.fileData = ko.observable({
+            dataURL: ko.observable()
+            // base64String: ko.observable(),
+        });
+        self.multiFileData = ko.observable({
+            fileArray: ko.observableArray(),
+            binaryStringArray: ko.observableArray(),
+            textArray: ko.observableArray(),
+            dataURLArray: ko.observableArray(),
+            arrayBufferArray: ko.observableArray(),
+            base64StringArray: ko.observableArray(),
+        });
+        self.onClear = function (fileData) {
+            if (confirm('Are you sure?')) {
+                fileData.clear && fileData.clear();
+            }
+        };
+
+
 
         var loadCategories = function () {
             $.ajax({
@@ -131,8 +152,16 @@
         }
 
         var onSuccess = function (data) {
-            alert('Saved !');
+            //alert('Saved !');
             self.product(new Product());
+            self.multiFileData({
+                fileArray: ko.observableArray(),
+                binaryStringArray: ko.observableArray(),
+                textArray: ko.observableArray(),
+                dataURLArray: ko.observableArray(),
+                arrayBufferArray: ko.observableArray(),
+                base64StringArray: ko.observableArray()
+            });
         }
 
         var onError = function (err) {
@@ -146,16 +175,23 @@
         self.save = function () {
             console.log('I am in submit() function');
             var data = ko.toJSON(self.product());
+            var formData = new FormData();
+            formData.append('data', data);
+            self.multiFileData().fileArray().forEach(function (file) {
+                formData.append('files', file);
+            });
             console.log(self.product(), 'product to save');
             if (window.editMode) {
                 $.ajax({
                     url: url + window.productId,
                     method: 'put',
-                    contentType: 'application/json',
-                    data: data,
+                    data: formData,
+                    contentType: false,       // The content type used when sending data to the server.
+                    cache: false,             // To unable request pages to be cached
+                    processData: false,        // To send DOMDocument or non processed data file it is set to false
                     beforeSend: onBeforeSend,
                     success: function (data) {
-                        alert('Saved !');
+                        //alert('Saved !');
                         window.location.href = window.redirectUrl;
                     },
                     complete: onComplete,
@@ -166,8 +202,10 @@
                 $.ajax({
                     url: url,
                     method: 'post',
-                    contentType: 'application/json',
-                    data: data,
+                    data: formData,
+                    contentType: false,       // The content type used when sending data to the server.
+                    cache: false,             // To unable request pages to be cached
+                    processData: false,        // To send DOMDocument or non processed data file it is set to false
                     beforeSend: onBeforeSend,
                     success: onSuccess,
                     complete: onComplete,

@@ -981,6 +981,11 @@ textarea.input {
   font-size: 16px;
 }
 
+.product.product-single .product-category a {
+  font-size: 14px;
+    color: cornflowerblue !important;
+}
+
 .product.product-single .product-btns {
   margin-top: 20px;
   opacity: 0;
