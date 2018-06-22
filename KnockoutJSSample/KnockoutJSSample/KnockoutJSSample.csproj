@@ -179,7 +179,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Shop\ShopAreaRegistration.cs" />
-    <Compile Include="Areas\Shop\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Shop\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Shop\Controllers\HomeController.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
@@ -217,12 +217,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Mappers\Mappers.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -233,6 +230,7 @@
     <Content Include="App_Scripts\category.create.js" />
     <Content Include="App_Scripts\products.create.js" />
     <Content Include="App_Scripts\products.js" />
+    <Content Include="Areas\Shop\Content\css\custom.css" />
     <Content Include="Areas\Shop\Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Areas\Shop\Content\fonts\slick.svg" />
     <Content Include="Areas\Shop\Content\img\ajax-loader.gif" />
@@ -281,6 +279,8 @@
     <Content Include="Areas\Shop\Content\css\slick.css" />
     <Content Include="Areas\Shop\Content\css\style.css" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Areas\Shop\Scripts\ko\search.page.js" />
+    <Content Include="Areas\Shop\Scripts\ko\layout.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\select2.min.css" />
@@ -365,12 +365,13 @@
     <Content Include="Areas\Shop\Content\fonts\slick.eot" />
     <Content Include="Areas\Shop\Content\fonts\slick.ttf" />
     <Content Include="Areas\Shop\Content\fonts\slick.woff" />
-    <Content Include="Areas\Shop\Views\Product\Index.cshtml" />
-    <Content Include="Areas\Shop\Views\Product\View.cshtml" />
+    <Content Include="Areas\Shop\Views\Products\Index.cshtml" />
+    <Content Include="Areas\Shop\Views\Products\View.cshtml" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Shop\Views\Shared\Partials\_TopMenu.cshtml" />
+    <Content Include="Areas\Shop\Views\Products\Search.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

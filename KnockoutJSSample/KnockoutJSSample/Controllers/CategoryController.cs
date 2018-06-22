@@ -3,12 +3,13 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using KnockoutJSSample.Mappers;
-using KnockoutJSSample.Models;
+using Models.Mappers;
+using Models.WebModels;
 using Repository;
 
 namespace KnockoutJSSample.Controllers
 {
+    [RoutePrefix("api/category")]
     public class CategoryController : ApiController
     {
         private readonly TodoAppEntities _db = new TodoAppEntities();
@@ -17,6 +18,14 @@ namespace KnockoutJSSample.Controllers
         {
             var response = await _db.Categories.ToListAsync();
             var list = response.Select(x => x.Map()).ToList();
+            return Ok(list);
+        }
+
+        [Route("Main"), HttpGet]
+        public async Task<IHttpActionResult> MainCategories()
+        {
+            var response = await _db.Categories.Where(x => x.ParentId == null).ToListAsync();
+            var list = response.Select(x => x.MapWithChildren()).ToList();
             return Ok(list);
         }
 

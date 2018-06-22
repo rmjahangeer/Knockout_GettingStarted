@@ -1,4 +1,4 @@
-namespace KnockoutJSSample.Models
+namespace Models.WebModels
 {
     
     public class ProductModel

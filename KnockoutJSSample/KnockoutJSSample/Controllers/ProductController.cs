@@ -1,32 +1,47 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using KnockoutJSSample.Mappers;
-using KnockoutJSSample.Models;
 using Microsoft.AspNet.Identity;
-using Repository;
+using Models.Mappers;
+using Models.RequestModels;
+using Models.ResponseModels;
+using Models.WebModels;
+using Repository.Repositories;
 
 namespace KnockoutJSSample.Controllers
 {
+    [RoutePrefix("api/product")]
     public class ProductController : ApiController
     {
-        private readonly TodoAppEntities _db = new TodoAppEntities();
+        private readonly ProductRepository _repository = new ProductRepository();
         // GET api/<controller>
         public async Task<IHttpActionResult> Get()
         {
-            var response = await _db.Products.ToListAsync();
+            var response = await _repository.GetAll();
             var list = response.Select(x => x.Map()).ToList();
             return Ok(list);
+        }
+
+        // GET api/product/search
+        [Route("search"), HttpGet]
+        public async Task<IHttpActionResult> Search([FromUri] ProductSearchRequest searchRequest)
+        {
+            var response = await _repository.Search(searchRequest);
+            var toReturn = new SearchResponse<ProductModel>
+            {
+                data = response.data.ToList().Select(x => x.Map()).ToList(),
+                recordsFiltered = response.recordsFiltered,
+                recordsTotal = response.recordsTotal
+            };
+            return Ok(toReturn);
         }
 
         // GET api/<controller>/5
         public async Task<IHttpActionResult> Get(int id)
         {
 
-            var response = await _db.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var response = await _repository.Find(id);
             var product = response?.Map();
             if (product == null)
                 return NotFound();
@@ -38,41 +53,25 @@ namespace KnockoutJSSample.Controllers
         {
             model.CreatedOn = DateTime.UtcNow;
             model.CreatedBy = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "";
-            _db.Products.Add(model.Map());
-            await _db.SaveChangesAsync();
+            await _repository.SaveOrUpdate(model.Map());
             return Ok();
         }
 
         // PUT api/<controller>/5
         public async Task<IHttpActionResult> Put(int id, [FromBody]ProductModel model)
         {
-            var product = await _db.Products.FindAsync(id);
-            if (product != null)
-            {
-                product.CategoryId = model.CategoryId;
-                product.Name = model.Name;
-                product.Price = model.Price;
-                product.Description = model.Description;
-                product.Image = model.Image;
-                product.ModifiedBy = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "";
-                product.ModifiedOn = DateTime.UtcNow;
-                _db.Products.AddOrUpdate(product);
-                await _db.SaveChangesAsync();
-                return Ok();
-            }
-            return NotFound();
+            model.ModifiedOn = DateTime.UtcNow;
+            model.ModifiedBy = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "";
+            await _repository.SaveOrUpdate(model.Map());
+            return Ok();
         }
 
         // DELETE api/<controller>/5
         public async Task<IHttpActionResult> Delete(int id)
         {
-            var product = await _db.Products.FindAsync(id);
-            if (product != null)
-            {
-                _db.Products.Remove(product);
-                await _db.SaveChangesAsync();
+            var product = await _repository.Delete(id);
+            if (product)
                 return Ok();
-            }
             return NotFound();
         }
     }

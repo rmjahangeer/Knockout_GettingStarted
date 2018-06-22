@@ -1,8 +1,8 @@
-﻿using KnockoutJSSample.Models;
+﻿using System.Linq;
 using Models.DomainModels;
-using Repository;
+using Models.WebModels;
 
-namespace KnockoutJSSample.Mappers
+namespace Models.Mappers
 {
     public static class Mappers
     {
@@ -60,8 +60,20 @@ namespace KnockoutJSSample.Mappers
                 Id = source.Id,
                 Name = source.Name,
                 ParentId = source.ParentId,
-                Image = source.Image
-
+                Image = source.Image,
+                ParentCategory = source.MainCategory?.Name
+            };
+        }
+        public static CategoryModel MapWithChildren(this Category source)
+        {
+            return new CategoryModel
+            {
+                Id = source.Id,
+                Name = source.Name,
+                ParentId = source.ParentId,
+                Image = source.Image,
+                Children = source.ChildCategories?.ToList().Select(x=>x.Map()).ToList(),
+                ParentCategory = source.MainCategory?.Name
             };
         }
     }
