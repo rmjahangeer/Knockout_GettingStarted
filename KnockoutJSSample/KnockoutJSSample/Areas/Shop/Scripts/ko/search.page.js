@@ -2,67 +2,94 @@
     var ViewModel = function () {
         // save reference of `this`
         var self = this;
-        // local array for filtering
-        var categories = [];
-
-        var searchProductsApi = function (q, catid, id) {
-            self.loadingData(true);
-            $.getJSON('/api/product/search', { Name: q }).done(function (data) {
-                console.log('api category', data);
-                data.data.forEach(function (x) {
-                    self.products.push(x);
-                });
-                self.loadingData(false);
-            }).fail(function () {
-                self.loadingData(false);
-            });
-        }
-
-        // observable list of categories to bind on list view 
-        self.categories = ko.observableArray([]);
+        var fireChangeCurrentPage = false;
+        // observable list of products to bind on list view 
         self.products = ko.observableArray([]);
         // to hide/show the spinner
         self.loadingData = ko.observable(true);
 
         // search input field model
-        self.searchQuery = ko.observable('');
+        self.resultsQuery = ko.observable('');
 
-        // handler for search box form
-        self.searchProducts = function () {
-            console.log('search for ', self.searchQuery());
-            if (window.location.pathname !== window.searchPage)
-                window.location.href = window.searchPage + '?q=' + queryParams('q');
-            else {
-                searchProductsApi(self.searchQuery());
-            }
-        }
+        self.sortDirection = ko.observable(true);
+        self.changeSortDirection = function () {
+            self.sortDirection(!self.sortDirection());
+            self.searchProducts();
+        };
+        self.sortBy = ko.observable(0);
+        self.sortBy.subscribe(function () {
+            self.searchProducts();
+        });
+        self.sortingOptions = ko.observableArray([
+            { key: 'Name', value: 0 },
+            { key: 'Category', value: 1 },
+            { key: 'Price', value: 2 },
+            { key: 'New In', value: 3 }
+        ]);
 
+        self.pageSize = ko.observable(10);
+        self.pageSize.subscribe(function () {
+            self.searchProducts();
+            self.currentPage(1);
+        });
+        self.showOptions = ko.observableArray([
+            { key: '10', value: 10 },
+            { key: '20', value: 20 },
+            { key: '30', value: 30 }
+        ]);
+
+        self.currentPage = ko.observable(1);
+        self.currentPage.subscribe(function () {
+            if (fireChangeCurrentPage)
+                self.searchProducts();
+        });
+        self.pages = ko.observableArray([
+            { key: ' 1', value: 1 }
+        ]);
+        
         // expose the load Method to trigger on page load
-        var loadCategories = function () {
-            self.loadingData(true);
-            $.getJSON('/api/category/main').done(function (data) {
+        self.searchProducts = function () {
+            ko.contextFor($('#top-nav')[0]).$data.loadingData(true);
+            var q = queryParams('q');
+            ko.contextFor($('#top-nav')[0]).$data.searchQuery(q);
+            self.resultsQuery(q);
+            var searchParams = {
+                Name: q,
+                SortBy: self.sortBy(),
+                PageSize: self.pageSize(),
+                IsAsc: self.sortDirection(),
+                PageNo: self.currentPage()
+            };
+
+            $.getJSON('/api/product/search', searchParams).done(function (data) {
                 console.log('api category', data);
-                data.forEach(function (x) {
-                    self.categories.push(x);
-                    categories.push(x);
+                self.products([]);
+                data.data.forEach(function (x) {
+                    self.products.push(x);
                 });
-                self.loadingData(false);
+                fireChangeCurrentPage = false;
+                self.pages([]);
+                var pages = Math.floor((data.recordsFiltered + self.pageSize() - 1) / self.pageSize());
+                for (var i = 1; i <= pages; i++) {
+                    self.pages.push({
+                        key: i.toString(),
+                        value: i
+                    });
+                }
+                self.currentPage(searchParams.PageNo);
+                fireChangeCurrentPage = true;
+                ko.contextFor($('#top-nav')[0]).$data.loadingData(false);
             }).fail(function () {
-                self.loadingData(false);
+                ko.contextFor($('#top-nav')[0]).$data.loadingData(false);
             });
+
         }
 
-
-        return {
-            loadCategories: loadCategories,
-            searchProductsApi: searchProductsApi
-        }
+        if (window.location.href.indexOf(window.searchPage) !== -1)
+            self.searchProducts();
     };
-    if (window.location.href.indexOf(window.searchPage) !== -1)
-        ViewModel().searchProductsApi(queryParams('q'));
-    // call this method to load the data on page laod from the API
-    ViewModel().loadCategories();
-    ko.applyBindings(new ViewModel());
+
+    ko.applyBindings(new ViewModel(), $('#search-page')[0]);
 
 })($, ko);
 

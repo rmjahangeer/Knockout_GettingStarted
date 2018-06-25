@@ -36,14 +36,14 @@
     @RenderSection("head", required: false)
 </head>
 <body>
-    <div class="lds-dual-ring" style="display: none" data-bind="visible: loadingData()"></div>
-    <!-- HEADER -->
-    @Html.Partial("Partials/_Header")
-    <!-- /HEADER -->
+    <div id="top-nav">
+        <div class="lds-dual-ring" style="display: none" data-bind="visible: loadingData()"></div>
+        <!-- HEADER -->
+        @Html.Partial("Partials/_Header")
+        <!-- /HEADER -->
 
-    @Html.Partial("Partials/_Categories")
-
-
+        @Html.Partial("Partials/_Categories")
+    </div>
 
     @RenderBody()
     <!-- FOOTER -->

@@ -178,6 +178,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Shop\Controllers\CartController.cs" />
     <Compile Include="Areas\Shop\ShopAreaRegistration.cs" />
     <Compile Include="Areas\Shop\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Shop\Controllers\HomeController.cs" />
@@ -374,6 +375,7 @@
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Shop\Views\Shared\Partials\_TopMenu.cshtml" />
     <Content Include="Areas\Shop\Views\Products\Search.cshtml" />
+    <Content Include="Areas\Shop\Views\Cart\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

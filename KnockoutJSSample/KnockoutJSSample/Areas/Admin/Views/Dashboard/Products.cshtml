@@ -3,7 +3,7 @@
     ViewBag.Title = "Products";
 }
 
-<h2>Products</h2>
+<h2>Products - (<span data-bind="text:products().length"></span>)</h2>
 <small><a href="@Url.Action("AddProduct")">Add new</a></small>
 @*<div data-bind="if: loadingData()">list</div>*@
 @section scripts
@@ -28,6 +28,9 @@
                     <i data-bind="visible : (sortParams().sort() == 'id' && !sortParams().asc())" class="glyphicon glyphicon-arrow-down text-primary"></i>
                     <i data-bind="visible : sortParams().sort() == 'id' && sortParams().asc()"    class="glyphicon glyphicon-arrow-up text-primary"></i>
                 </th>
+                <th>
+                    Image
+                </th>
                 <th class="sortable" data-bind="click : sort.bind($data, 'name', sortParams())">
                     Name 
                     <i data-bind="visible : (sortParams().sort() == 'name' && !sortParams().asc())" class="glyphicon glyphicon-arrow-down text-primary"></i>
@@ -50,6 +53,7 @@
         <tbody data-bind="foreach : products">
             <tr>
                 <td><a data-bind="attr : { href : '@Url.Action("AddProduct")/' + Id, title : 'Edit ' + Name }, text : Id"></a></td>
+                <td><img class="img-responsive img-circle" style="height: 48px" data-bind="attr :{src : Image}"/></td>
                 <td data-bind="text : Name"></td>
                 <td data-bind="text : Price"></td>
                 <td data-bind="text : Category.Name"></td>

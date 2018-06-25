@@ -35,16 +35,16 @@
     
     <div class="form-group">
         <label>Feature Image</label>
-        <div class="well" data-bind="fileDrag: $root.fileData">
+        <div class="well" data-bind="fileDrag: $root.featureImage">
             <div class="form-group row">
                 <div class="col-md-6">
-                    <img style="height: 125px;" class="img-rounded  thumb" data-bind="attr: { src: $root.fileData().dataURL }, visible: $root.fileData().dataURL">
-                    <div data-bind="ifnot: $root.fileData().dataURL">
+                    <img style="height: 125px;" class="img-rounded  thumb" data-bind="attr: { src: $root.featureImage().dataURL }, visible: $root.featureImage().dataURL">
+                    <div data-bind="ifnot: $root.featureImage().dataURL">
                         <label class="drag-label">Drag file here</label>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <input type="file" data-bind="fileInput: $root.fileData, customFileInput: {buttonClass: 'btn btn-success',fileNameClass: 'disabled form-control',onClear: $root.onClear,}" accept="image/*">
+                    <input type="file" data-bind="fileInput: $root.featureImage, customFileInput: {buttonClass: 'btn btn-success',fileNameClass: 'disabled form-control',onClear: $root.onClear,}" accept="image/*">
                 </div>
             </div>
         </div>
@@ -52,19 +52,19 @@
 
     <div class="form-group">
         <label>Images</label>
-        <div class="jumbotron" data-bind="fileDrag: $root.multiFileData">
+        <div class="jumbotron" data-bind="fileDrag: $root.productImages">
             <div class="form-group row">
                 <div class="col-md-6">
-                    <!-- ko foreach: {data: $root.multiFileData().dataURLArray, as: 'dataURL'} -->
+                    <!-- ko foreach: {data: $root.productImages().dataURLArray, as: 'dataURL'} -->
                     <img style="height: 100px; margin: 5px;" class="img-rounded  thumb" data-bind="attr: { src: dataURL }, visible: dataURL">
                     <!-- /ko -->
-                    <div data-bind="ifnot: $root.fileData().dataURL">
+                    <div data-bind="ifnot: $root.featureImage().dataURL">
                         <label class="drag-label">Drag files here</label>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <input type="file" multiple 
-                           data-bind="fileInput: $root.multiFileData, customFileInput: {buttonClass: 'btn btn-success', fileNameClass: 'disabled form-control', onClear: $root.onClear}" 
+                           data-bind="fileInput: $root.productImages, customFileInput: {buttonClass: 'btn btn-success', fileNameClass: 'disabled form-control', onClear: $root.onClear}" 
                            accept="image/*">
                 </div>
             </div>

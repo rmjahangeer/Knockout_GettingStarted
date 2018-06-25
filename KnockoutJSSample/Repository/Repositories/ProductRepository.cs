@@ -20,7 +20,9 @@ namespace Repository.Repositories
             new Dictionary<ProductOrderBy, Func<Product, object>>
             {
                 {ProductOrderBy.Name, o => o.Name },
-                {ProductOrderBy.Category, o => o.Category.Name }
+                {ProductOrderBy.Category, o => o.Category.Name },
+                {ProductOrderBy.Price, o => o.Price },
+                {ProductOrderBy.AddedOn, o => o.CreatedOn },
             };
 
 

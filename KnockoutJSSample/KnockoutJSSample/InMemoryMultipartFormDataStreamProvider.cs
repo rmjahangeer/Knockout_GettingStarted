@@ -74,14 +74,23 @@ namespace KnockoutJSSample
                 }
                 else
                 {
-                    var file1 = Contents[index] ;
-                    
+                    var file1 = Contents[index];
+
                     var path = HttpContext.Current.Server.MapPath("~/Uploads");
                     var extension = Path.GetExtension(file1.Headers.ContentDisposition.FileName.Replace("\\", "").Replace("\"", ""));
                     var fileName = $"{Guid.NewGuid()}{extension}";
                     //var fileName = $"{DateTime.UtcNow:yyyyMMddHHmmssfff}{extension}";
+                    
                     File.WriteAllBytes($"{path}/{fileName}", file1.ReadAsByteArrayAsync().Result);
-                    FormData.Add($"FilePath-{index}", $"/Uploads/{fileName}");
+                    if (file1.Headers.ContentDisposition.Name.IndexOf("featureImage", StringComparison.Ordinal) >= 0)
+                    {
+                        FormData.Add($"FilePath-featureImage", $"/Uploads/{fileName}");
+                    }
+                    else
+                    {
+                        FormData.Add($"FilePath-{index}", $"/Uploads/{fileName}");
+                    }
+                    
                     fileUploadCount++;
                 }
             }

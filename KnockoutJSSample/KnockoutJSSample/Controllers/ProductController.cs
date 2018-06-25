@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
-using Models.DomainModels;
 using Models.Mappers;
 using Models.RequestModels;
 using Models.ResponseModels;
@@ -61,7 +60,7 @@ namespace KnockoutJSSample.Controllers
             NameValueCollection formData = provider.FormData;
             var files = Convert.ToInt32(formData["FilesCount"]);
             var images = new List<ProductImageModel>();
-            for (int i = 1; i <= files; i++)
+            for (int i = 2; i <= files; i++)
             {
                 images.Add(new ProductImageModel
                 {
@@ -70,6 +69,7 @@ namespace KnockoutJSSample.Controllers
             }
             var data = formData["data"];
             var model = JsonConvert.DeserializeObject<ProductModel>(data);
+            model.Image = formData["FilePath-featureImage"];
             model.ProductImages = images;
             model.CreatedOn = DateTime.UtcNow;
             model.CreatedBy = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "";
@@ -85,7 +85,7 @@ namespace KnockoutJSSample.Controllers
             NameValueCollection formData = provider.FormData;
             var files = Convert.ToInt32(formData["FilesCount"]);
             var images = new List<ProductImageModel>();
-            for (int i = 0; i < files; i++)
+            for (int i = 2; i < files; i++)
             {
                 images.Add(new ProductImageModel
                 {
@@ -95,6 +95,7 @@ namespace KnockoutJSSample.Controllers
             var data = formData["data"];
             var model = JsonConvert.DeserializeObject<ProductModel>(data);
             model.ProductImages = images;
+            model.Image = formData["FilePath-featureImage"];
             model.ModifiedOn = DateTime.UtcNow;
             model.ModifiedBy = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "";
             await _repository.SaveOrUpdate(model.Map());

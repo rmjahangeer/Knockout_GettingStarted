@@ -85,11 +85,11 @@
             return self.product().isValid();
         });
 
-        self.fileData = ko.observable({
-            dataURL: ko.observable()
-            // base64String: ko.observable(),
+        self.featureImage = ko.observable({
+            dataURL: ko.observable(),
+            file: ko.observable()
         });
-        self.multiFileData = ko.observable({
+        self.productImages = ko.observable({
             fileArray: ko.observableArray(),
             binaryStringArray: ko.observableArray(),
             textArray: ko.observableArray(),
@@ -154,14 +154,8 @@
         var onSuccess = function (data) {
             //alert('Saved !');
             self.product(new Product());
-            self.multiFileData({
-                fileArray: ko.observableArray(),
-                binaryStringArray: ko.observableArray(),
-                textArray: ko.observableArray(),
-                dataURLArray: ko.observableArray(),
-                arrayBufferArray: ko.observableArray(),
-                base64StringArray: ko.observableArray()
-            });
+            self.productImages().clear();
+            self.featureImage().clear();
         }
 
         var onError = function (err) {
@@ -177,7 +171,8 @@
             var data = ko.toJSON(self.product());
             var formData = new FormData();
             formData.append('data', data);
-            self.multiFileData().fileArray().forEach(function (file) {
+            formData.append('featureImage', self.featureImage().file());
+            self.productImages().fileArray().forEach(function (file) {
                 formData.append('files', file);
             });
             console.log(self.product(), 'product to save');
