@@ -15,7 +15,7 @@ namespace KnockoutJSSample.Areas.Shop.Controllers
             return View();
         }
 
-        public ActionResult Search(string q, int? catId, int? productId)
+        public ActionResult Catalog(string q, int? catId, int? productId)
         {
             ViewBag.SearchTerms = new
             {

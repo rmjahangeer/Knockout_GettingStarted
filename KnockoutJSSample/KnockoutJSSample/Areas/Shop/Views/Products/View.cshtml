@@ -2,7 +2,10 @@
 @{
     ViewBag.Title = "View";
 }
-
+@section component
+{
+    <script src="~/Areas/Shop/Scripts/ko/product.page.js"></script>
+}
 <!-- BREADCRUMB -->
 <div id="breadcrumb">
     <div class="container">
@@ -10,7 +13,7 @@
             <li><a href="#">Home</a></li>
             <li><a href="#">Products</a></li>
             <li><a href="#">Category</a></li>
-            <li class="active">Product Name Goes Here</li>
+            <li class="active" data-bind="text : product().Name"></li>
         </ul>
     </div>
 </div>

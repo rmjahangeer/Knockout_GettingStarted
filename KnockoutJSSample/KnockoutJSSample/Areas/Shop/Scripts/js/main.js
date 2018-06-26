@@ -1,4 +1,6 @@
-
+/// <reference path="jquery-3.3.1.js" />
+/// <reference path="knockout.mapping-latest.js" />
+/// <reference path="knockout-3.4.2.js" />
 
 (function (ko) {
     window.queryParams = function (variable) {
@@ -21,34 +23,42 @@
 
         addToCart: function (item) {
             var products = localStorage.getItem('cart_products') ? JSON.parse(localStorage.getItem('cart_products')) : [];
-            var existingProduct = products.find(function(x) { return x.Id === item.Id });
+            var existingProduct = products.find(function (x) { return x.Id === item.Id });
             if (existingProduct) {
                 existingProduct.Quantity += 1;
             } else {
                 item.Quantity = 1;
                 products.push(item);
             }
-            
+
             localStorage.setItem('cart_products', JSON.stringify(products));
-            // update cart
+            // update cart widget
             ko.contextFor($('#top-nav')[0]).$data.fetchAndUpdateCartProducts();
             return products;
         },
-        
+
         remove: function (item) {
             var products = localStorage.getItem('cart_products') ? JSON.parse(localStorage.getItem('cart_products')) : [];
-            var existingProduct = products.find(function(x) { return x.Id === item.Id });
+            var existingProduct = products.find(function (x) { return x.Id === item.Id });
             if (existingProduct) {
                 products.splice(products.indexOf(existingProduct), 1);
                 localStorage.setItem('cart_products', JSON.stringify(products));
-                // update cart
+                // update cart widget
                 ko.contextFor($('#top-nav')[0]).$data.fetchAndUpdateCartProducts();
             }
             return products;
+        },
+
+        clear: function () {
+            var products = [];
+            localStorage.setItem('cart_products', JSON.stringify(products));
+            // update cart widget
+            ko.contextFor($('#top-nav')[0]).$data.fetchAndUpdateCartProducts();
+            return products;
         }
 
-        
-}
+
+    }
 })(ko);
 
 (function ($) {

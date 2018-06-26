@@ -25,8 +25,18 @@
             <form id="checkout-form" class="clearfix">
                 <div class="col-md-12">
                     <div class="order-summary clearfix">
+                        <!-- ko if:products().length === 0-->
                         <div class="section-title">
-                            <h3 class="title">Order Review (<span data-bind="text : products().length"> Items</span>)</h3>
+                            <h3 class="title">
+                                <a class="btn btn-default" href="@Url.Action("Catalog", "Products")">
+                                    <i class="fa fa-cart-plus"></i>&nbsp;<strong>Add</strong>
+                                </a> some products to your cart !
+                            </h3>
+                        </div>
+                        <!--/ko-->
+                        <!-- ko if:products().length !== 0-->
+                        <div class="section-title">
+                            <h3 class="title">Order Review (<span data-bind="text : products().length"></span> Items)</h3>
                         </div>
                         <table class="shopping-cart-table table">
                             <thead>
@@ -56,7 +66,7 @@
                                         @*<del class="font-weak"><small>$40.00</small></del>*@
                                     </td>
                                     <td class="qty text-center">
-                                        <input class="input" min="1" type="number" value="1" data-bind="textInput : Quantity, event : { change : $root.changeQuantity }">
+                                        <input class="input" min="1" type="number" value="1" data-bind="textInput : Quantity">
                                     </td>
                                     <td class="total text-center"><strong class="primary-color" data-bind="text : $root.productTotal($data)"></strong></td>
                                     <td class="text-right">
@@ -86,8 +96,9 @@
                             </tfoot>
                         </table>
                         <div class="pull-right">
-                            <button class="primary-btn" data-bind="click : $root.placeOrder">Place Order</button>
+                            <button class="primary-btn" type="button" data-bind="click : $root.placeOrder">Place Order</button>
                         </div>
+                        <!-- /ko-->
                     </div>
 
                 </div>

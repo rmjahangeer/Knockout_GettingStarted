@@ -1,4 +1,8 @@
-﻿(function ($, ko) {
+﻿/// <reference path="jquery-3.3.1.js" />
+/// <reference path="../areas/shop/scripts/js/main.js" />
+/// <reference path="knockout.mapping-latest.js" />
+/// <reference path="knockout-3.4.2.js" />
+(function ($, ko) {
     var ViewModel = function () {
         // save reference of `this`
         var self = this;
@@ -18,6 +22,13 @@
             return '$' + subTotal;
         });
 
+        self.placeOrder = function() {
+            if (confirm('Are you sure to checkout with these details?')) {
+                window.cart.clear();
+                self.fetchAndUpdateCartProducts();
+                alert('Thank you for shopping with us.');
+            }
+        }
 
         self.removeProduct = function (item) {
             window.cart.remove(ko.mapping.toJS(item));

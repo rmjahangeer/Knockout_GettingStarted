@@ -73,7 +73,7 @@
                 <ul class="category-list" data-bind="foreach : categories">
                     <li data-bind="css : {'dropdown side-dropdown' : Children.length > 0}">
                         <!-- ko if: Children.length === 0 -->
-                        <a data-bind="attr : { href : '@Url.Action("Search","Products")?catId=' + Id}"><span data-bind="text : Name"></span></a>
+                        <a data-bind="attr : { href : '@Url.Action("Catalog","Products")?catId=' + Id}"><span data-bind="text : Name"></span></a>
                         <!-- /ko -->
                         
                         <!-- ko if: Children.length > 0 -->
@@ -89,7 +89,7 @@
                                             <h3 class="list-links-title" data-bind="text : Name"></h3>
                                         </li>
                                         <!-- ko foreach: Children -->
-                                        <li><a data-bind="text : Name, attr : { href : '@Url.Action("Search","Products")?catId=' + Id}"></a></li>
+                                        <li><a data-bind="text : Name, attr : { href : '@Url.Action("Catalog","Products")?catId=' + Id}"></a></li>
                                         <!-- /ko -->
                                     </ul>
                                     <hr class="hidden-md hidden-lg">
