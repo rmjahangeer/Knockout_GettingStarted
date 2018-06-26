@@ -1,14 +1,55 @@
-function queryParams(variable) {
-    var query = window.location.search.substring(1);
-    var vars = query.split('&');
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split('=');
-        if (decodeURIComponent(pair[0]) == variable) {
-            return decodeURIComponent(pair[1]);
+
+
+(function (ko) {
+    window.queryParams = function (variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split('&');
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split('=');
+            if (decodeURIComponent(pair[0]) === variable) {
+                return decodeURIComponent(pair[1]);
+            }
         }
+        console.log('Query variable %s not found', variable);
     }
-    console.log('Query variable %s not found', variable);
+
+    window.cart = {
+        getCartItems: function () {
+            var products = localStorage.getItem('cart_products') ? JSON.parse(localStorage.getItem('cart_products')) : [];
+            return products;
+        },
+
+        addToCart: function (item) {
+            var products = localStorage.getItem('cart_products') ? JSON.parse(localStorage.getItem('cart_products')) : [];
+            var existingProduct = products.find(function(x) { return x.Id === item.Id });
+            if (existingProduct) {
+                existingProduct.Quantity += 1;
+            } else {
+                item.Quantity = 1;
+                products.push(item);
+            }
+            
+            localStorage.setItem('cart_products', JSON.stringify(products));
+            // update cart
+            ko.contextFor($('#top-nav')[0]).$data.fetchAndUpdateCartProducts();
+            return products;
+        },
+        
+        remove: function (item) {
+            var products = localStorage.getItem('cart_products') ? JSON.parse(localStorage.getItem('cart_products')) : [];
+            var existingProduct = products.find(function(x) { return x.Id === item.Id });
+            if (existingProduct) {
+                products.splice(products.indexOf(existingProduct), 1);
+                localStorage.setItem('cart_products', JSON.stringify(products));
+                // update cart
+                ko.contextFor($('#top-nav')[0]).$data.fetchAndUpdateCartProducts();
+            }
+            return products;
+        }
+
+        
 }
+})(ko);
 
 (function ($) {
     "use strict";

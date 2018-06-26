@@ -95,7 +95,8 @@ namespace KnockoutJSSample.Controllers
             var data = formData["data"];
             var model = JsonConvert.DeserializeObject<ProductModel>(data);
             model.ProductImages = images;
-            model.Image = formData["FilePath-featureImage"];
+            if (!string.IsNullOrEmpty(formData["FilePath-featureImage"]))
+                model.Image = formData["FilePath-featureImage"];
             model.ModifiedOn = DateTime.UtcNow;
             model.ModifiedBy = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "";
             await _repository.SaveOrUpdate(model.Map());

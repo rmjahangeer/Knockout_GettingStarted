@@ -46,15 +46,21 @@
         self.pages = ko.observableArray([
             { key: ' 1', value: 1 }
         ]);
+
+        self.addToCart = function(item) {
+            window.cart.addToCart(item);
+        }
         
         // expose the load Method to trigger on page load
         self.searchProducts = function () {
             ko.contextFor($('#top-nav')[0]).$data.loadingData(true);
             var q = queryParams('q');
+            var categoryId = queryParams('catId');
             ko.contextFor($('#top-nav')[0]).$data.searchQuery(q);
             self.resultsQuery(q);
             var searchParams = {
                 Name: q,
+                CategoryId: categoryId,
                 SortBy: self.sortBy(),
                 PageSize: self.pageSize(),
                 IsAsc: self.sortDirection(),

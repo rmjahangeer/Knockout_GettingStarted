@@ -50,11 +50,13 @@
         }
     };
 
-    var Product = function (id, name, categoryId, price) {
+    var Product = function (id, name, categoryId, price, image, productImages) {
         this.Id = ko.observable(id || 0);
         this.Name = ko.observable(name || '');
         this.CategoryId = ko.observable(categoryId || 0);
         this.Price = ko.observable(price || 0);
+        this.Image = ko.observable(image || '');
+        this.ProductImages = ko.observableArray(productImages);
     }
 
     var Category = function (id, name, disabled, children) {
@@ -103,7 +105,32 @@
             }
         };
 
-
+        self.removeImage = function (img) {
+            self.productImages().dataURLArray.remove(img);
+            self.productImages().fileArray.remove(img);
+            var image = self.product().ProductImages().find(function (x) {
+                return x.Image.indexOf(img) !== -1;
+            });
+            if (image) {
+                self.product().ProductImages().splice(self.product().ProductImages().indexOf(image), 1);
+                $.ajax({
+                    url: '/api/productImage/' + image.Id,
+                    method: 'delete',
+                    beforeSend: function () {
+                        self.loadingData(true);
+                    },
+                    success: function (data) {
+                        console.log('image deleted', image);
+                    },
+                    complete: function () {
+                        self.loadingData(false);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
+        }
 
         var loadCategories = function () {
             $.ajax({
@@ -136,7 +163,11 @@
                     self.loadingData(true);
                 },
                 success: function (x) {
-                    self.product(new Product(x.Id, x.Name, x.CategoryId, x.Price));
+                    self.product(new Product(x.Id, x.Name, x.CategoryId, x.Price, x.Image, x.ProductImages));
+                    self.featureImage().dataURL(x.Image);
+                    x.ProductImages.forEach(function (i) {
+                        self.productImages().dataURLArray.push(i.Image);
+                    });
                 },
                 complete: function () {
                     self.loadingData(false);
@@ -216,5 +247,3 @@
     ko.applyBindings(new ProductViewModel());
 
 })($, ko);
-
-

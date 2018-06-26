@@ -55,10 +55,13 @@
         <div class="jumbotron" data-bind="fileDrag: $root.productImages">
             <div class="form-group row">
                 <div class="col-md-6">
-                    <!-- ko foreach: {data: $root.productImages().dataURLArray, as: 'dataURL'} -->
-                    <img style="height: 100px; margin: 5px;" class="img-rounded  thumb" data-bind="attr: { src: dataURL }, visible: dataURL">
+                    <!-- ko foreach: {data: $parent.productImages().dataURLArray, as: 'dataURL'} -->
+                    <div>
+                        <img style="height: 100px; margin: 5px;" class="img-rounded  thumb" data-bind="attr: { src: dataURL }, visible: dataURL">
+                        <a href="#" data-bind="click : $root.removeImage">remove</a>
+                    </div>
                     <!-- /ko -->
-                    <div data-bind="ifnot: $root.featureImage().dataURL">
+                    <div data-bind="ifnot: $parent.productImages().dataURLArray().length">
                         <label class="drag-label">Drag files here</label>
                     </div>
                 </div>

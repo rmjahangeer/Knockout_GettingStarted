@@ -1,35 +1,35 @@
 ﻿<header>
     <!-- top Header -->
     @*<div id="top-header">
-        <div class="container">
-            <div class="pull-left">
-                <span>Welcome to E-shop!</span>
+            <div class="container">
+                <div class="pull-left">
+                    <span>Welcome to E-shop!</span>
+                </div>
+                <div class="pull-right">
+                    <ul class="header-top-links">
+                        <li><a href="#">Store</a></li>
+                        <li><a href="#">Newsletter</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li class="dropdown default-dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">ENG <i class="fa fa-caret-down"></i></a>
+                            <ul class="custom-menu">
+                                <li><a href="#">English (ENG)</a></li>
+                                <li><a href="#">Russian (Ru)</a></li>
+                                <li><a href="#">French (FR)</a></li>
+                                <li><a href="#">Spanish (Es)</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown default-dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">USD <i class="fa fa-caret-down"></i></a>
+                            <ul class="custom-menu">
+                                <li><a href="#">USD ($)</a></li>
+                                <li><a href="#">EUR (€)</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="pull-right">
-                <ul class="header-top-links">
-                    <li><a href="#">Store</a></li>
-                    <li><a href="#">Newsletter</a></li>
-                    <li><a href="#">FAQ</a></li>
-                    <li class="dropdown default-dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">ENG <i class="fa fa-caret-down"></i></a>
-                        <ul class="custom-menu">
-                            <li><a href="#">English (ENG)</a></li>
-                            <li><a href="#">Russian (Ru)</a></li>
-                            <li><a href="#">French (FR)</a></li>
-                            <li><a href="#">Spanish (Es)</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown default-dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">USD <i class="fa fa-caret-down"></i></a>
-                        <ul class="custom-menu">
-                            <li><a href="#">USD ($)</a></li>
-                            <li><a href="#">EUR (€)</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>*@
+        </div>*@
     <!-- /top Header -->
     <!-- header -->
     <div id="header">
@@ -46,11 +46,7 @@
                 <div class="header-search">
                     <form data-bind="submit : searchProducts">
                         <input class="input search-input" type="text" placeholder="Enter your keyword" data-bind="textInput : searchQuery">
-                        <select class="input search-categories">
-                            <option value="0">All Categories</option>
-                            @*<option value="1">Category 01</option>
-                            <option value="1">Category 02</option>*@
-                        </select>
+                        <select class="input search-categories" data-bind="options: allCategories, value: selectedCategory, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'All Categories'"></select>
                         <button class="search-btn"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
@@ -82,40 +78,34 @@
                         <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                             <div class="header-btns-icon">
                                 <i class="fa fa-shopping-cart"></i>
-                                @*<span class="qty">3</span>*@
+                                <span class="qty" data-bind="text : totalProducts"></span>
                             </div>
                             <strong class="text-uppercase">My Cart:</strong>
                             <br>
-                            <span>0.0$</span>
+                            <span data-bind="text : subTotal"></span>
                         </a>
                         <div class="custom-menu">
                             <div id="shopping-cart">
                                 <div class="shopping-cart-list">
+                                    <!-- ko if:products().length === 0-->
                                     <p>No items in cart !</p>
-                                    @*<div class="product product-widget">
-                                        <div class="product-thumb">
-                                            <img src="~/Areas/Shop/Content/img/thumb-product01.jpg" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-                                            <h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-                                        </div>
-                                        <button class="cancel-btn"><i class="fa fa-trash"></i></button>
-                                    </div>
+                                    <!-- /ko-->
+                                    <!-- ko foreach:products-->
                                     <div class="product product-widget">
                                         <div class="product-thumb">
-                                            <img src="~/Areas/Shop/Content/img/thumb-product01.jpg" alt="">
+                                            <img data-bind="attr:{src:Image}" alt="">
                                         </div>
                                         <div class="product-body">
-                                            <h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-                                            <h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
+                                            <h3 class="product-price"><!-- ko text:Price--> <!-- /ko--> x<span class="qty" data-bind="text:Quantity"></span></h3>
+                                            <h2 class="product-name"><a href="#" data-bind="text:Name"></a></h2>
                                         </div>
-                                        <button class="cancel-btn"><i class="fa fa-trash"></i></button>
-                                    </div>*@
+                                        <button class="cancel-btn" data-bind="click : $root.removeProduct"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                    <!-- /ko-->
                                 </div>
                                 <div class="shopping-cart-btns">
-                                    <button disabled="" class="main-btn">View Cart</button>
-                                    <button disabled="" class="primary-btn">Checkout <i class="fa fa-arrow-circle-right"></i></button>
+                                    @*<button disabled="" class="main-btn">View Cart</button>*@
+                                    <a href="@Url.Action("Index", "Cart")" class="primary-btn">Checkout <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                         </div>
