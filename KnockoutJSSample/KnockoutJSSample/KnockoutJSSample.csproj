@@ -283,6 +283,7 @@
     <Content Include="Areas\Shop\Content\css\style.css" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Areas\Shop\Scripts\ko\cart.page.js" />
+    <Content Include="Areas\Shop\Scripts\ko\product.page.js" />
     <Content Include="Areas\Shop\Scripts\ko\search.page.js" />
     <Content Include="Areas\Shop\Scripts\ko\layout.js" />
     <Content Include="Content\bootstrap.css" />
