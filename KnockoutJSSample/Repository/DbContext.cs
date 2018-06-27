@@ -10,7 +10,7 @@ namespace Repository
     public partial class TodoAppEntities : DbContext
     {
         public TodoAppEntities()
-            : base("name=DefaultConnection")
+            : base("name=MyEntities")
         {
         }
 
@@ -20,6 +20,7 @@ namespace Repository
         }
 
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<PurchaseHistory> PurchaseHistories { get; set; }
         public virtual DbSet<ProductImage> ProductImages { get; set; }
         public virtual DbSet<Product> Products { get; set; }
     }

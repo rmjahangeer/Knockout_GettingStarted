@@ -2,6 +2,7 @@
 
 namespace KnockoutJSSample.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "SystemAdministrator")]
     public class DashboardController : Controller
     {
         public ActionResult Index()

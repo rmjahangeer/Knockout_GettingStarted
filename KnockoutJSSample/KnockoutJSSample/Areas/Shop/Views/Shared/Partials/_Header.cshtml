@@ -1,4 +1,5 @@
-﻿<header>
+﻿@using Models.Common
+<header>
     <!-- top Header -->
     @*<div id="top-header">
             <div class="container">
@@ -62,14 +63,38 @@
                             </div>
                             <strong class="text-uppercase">My Account <i class="fa fa-caret-down"></i></strong>
                         </div>
-                        <a href="#" class="text-uppercase">Login</a> / <a href="#" class="text-uppercase">Join</a>
+                        @if (!Request.IsAuthenticated)
+                        {
+                            <a href="@Url.Action("Login", "Account", new {area = ""})" class="text-uppercase">Login</a> <span>/</span> <a href="@Url.Action("Register", "Account", new {area = ""})" class="text-uppercase">Join</a>
+                        }
+                        else
+                        {
+                            <div class="text-ellipsis"><a href="#" class="text-uppercase">@User.Identity.Name</a></div>
+                        }
                         <ul class="custom-menu">
+                            @if (!Request.IsAuthenticated && User.IsInRole(ApplicationRoles.SystemAdministrator))
+                            {
+                                <li><a href="@Url.Action("Index", "Dashboard", routeValues: new { area = "Admin"})"><i class="fa fa-user-o"></i> Manage</a></li>
+                            }
+                            
                             <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
                             <li><a href="#"><i class="fa fa-heart-o"></i> My Wishlist</a></li>
                             <li><a href="#"><i class="fa fa-exchange"></i> Compare</a></li>
-                            <li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
-                            <li><a href="#"><i class="fa fa-unlock-alt"></i> Login</a></li>
-                            <li><a href="#"><i class="fa fa-user-plus"></i> Create An Account</a></li>
+                            <li><a href="@Url.Action("Index", "Cart")"><i class="fa fa-check"></i> Checkout</a></li>
+                            @if (!Request.IsAuthenticated)
+                            {
+                                <li><a href="@Url.Action("Login", "Account", new {area = ""})"><i class="fa fa-unlock-alt"></i> Login</a></li>
+                                <li><a href="@Url.Action("Register", "Account", routeValues: new {area = ""})"><i class="fa fa-user-plus"></i> Create An Account</a></li>
+                            }
+                            else
+                            {
+                                using (Html.BeginForm("LogOff", "Account", new {area = ""}, FormMethod.Post, new {id = "logoutForm", @class = "hidden"}))
+                                {
+                                    @Html.AntiForgeryToken()
+                                }
+                                <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-lock"></i> Log out</a></li>
+
+                            }
                         </ul>
                     </li>
                     <!-- /Account -->

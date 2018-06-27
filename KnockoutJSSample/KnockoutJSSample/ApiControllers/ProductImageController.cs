@@ -6,7 +6,7 @@ using Repository;
 namespace KnockoutJSSample.ApiControllers
 {
     [RoutePrefix("api/productImage")]
-    public class ProductImageApiController : ApiController
+    public class ProductImageController : ApiController
     {
         private readonly TodoAppEntities _repository = new TodoAppEntities();
 

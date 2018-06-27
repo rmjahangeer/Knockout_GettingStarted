@@ -37,6 +37,16 @@
           <Property Name="Image" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="PurchaseHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
         <Association Name="FK_Category_Category">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
           <End Role="Category1" Type="Self.Category" Multiplicity="*" />
@@ -62,7 +72,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ProductImages_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
@@ -73,10 +85,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PurchaseHistory_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="PurchaseHistory" Type="Self.PurchaseHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseHistory">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="todoAppModelStoreContainer">
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductImages" EntityType="Self.ProductImages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchaseHistory" EntityType="Self.PurchaseHistory" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Category_Category" Association="Self.FK_Category_Category">
             <End Role="Category" EntitySet="Category" />
             <End Role="Category1" EntitySet="Category" />
@@ -88,6 +113,10 @@
           <AssociationSet Name="FK_ProductImages_Product" Association="Self.FK_ProductImages_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductImages" EntitySet="ProductImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseHistory_Product" Association="Self.FK_PurchaseHistory_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="PurchaseHistory" EntitySet="PurchaseHistory" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -121,6 +150,11 @@
           <AssociationSet Name="FK_ProductImages_Product" Association="todoAppModel.FK_ProductImages_Product">
             <End Role="Product" EntitySet="Products" />
             <End Role="ProductImage" EntitySet="ProductImages" />
+          </AssociationSet>
+          <EntitySet Name="PurchaseHistories" EntityType="todoAppModel.PurchaseHistory" />
+          <AssociationSet Name="FK_PurchaseHistory_Product" Association="todoAppModel.FK_PurchaseHistory_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="PurchaseHistory" EntitySet="PurchaseHistories" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ProductImage">
@@ -160,6 +194,7 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Category" Relationship="todoAppModel.FK_Product_Category" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="ProductImages" Relationship="todoAppModel.FK_ProductImages_Product" FromRole="Product" ToRole="ProductImage" />
+          <NavigationProperty Name="PurchaseHistories" Relationship="todoAppModel.FK_PurchaseHistory_Product" FromRole="Product" ToRole="PurchaseHistory" />
         </EntityType>
         <Association Name="FK_Product_Category">
           <End Type="todoAppModel.Category" Role="Category" Multiplicity="1" />
@@ -181,6 +216,29 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="ProductImage">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PurchaseHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Product" Relationship="todoAppModel.FK_PurchaseHistory_Product" FromRole="PurchaseHistory" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_PurchaseHistory_Product">
+          <End Type="todoAppModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="todoAppModel.PurchaseHistory" Role="PurchaseHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseHistory">
               <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
@@ -222,6 +280,17 @@
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseHistories">
+            <EntityTypeMapping TypeName="todoAppModel.PurchaseHistory">
+              <MappingFragment StoreEntitySet="PurchaseHistory">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

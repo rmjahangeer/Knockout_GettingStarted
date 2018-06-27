@@ -10,19 +10,19 @@
         self.products = ko.observableArray([]);
 
         self.changeQuanity = ko.observable();
-        self.productTotal = function(p) {
+        self.productTotal = function (p) {
             return '$' + (p.Price() * p.Quantity());
         };
         self.subTotal = ko.pureComputed(function () {
             var subTotal = 0;
-            self.products().forEach(function(p) {
+            self.products().forEach(function (p) {
                 subTotal += p.Price() * p.Quantity();
             });
 
             return '$' + subTotal;
         });
 
-        self.placeOrder = function() {
+        self.placeOrder = function () {
             if (confirm('Are you sure to checkout with these details?')) {
                 window.cart.clear();
                 self.fetchAndUpdateCartProducts();
@@ -33,6 +33,33 @@
         self.removeProduct = function (item) {
             window.cart.remove(ko.mapping.toJS(item));
             self.fetchAndUpdateCartProducts();
+        }
+
+        self.placeOrder = function () {
+            if (!window.isUserLoggedIn) {
+                window.location.href = window.loginPage + window.checkoutPage;
+                return;
+            }
+            $.ajax({
+                url: '/api/purchasehistory/' + window.userId,
+                method: 'post',
+                contentType: 'application/json',
+                data: ko.mapping.toJSON(self.products()),
+                beforeSend : function() {
+                    window.spinner.show();
+                },
+                success: function(res) {
+                    window.cart.clear();
+                    alert('Thank you for shopping with us.');
+                    window.location.href = window.homePage;
+                },
+                complete: function(res) {
+                    window.spinner.hide();
+                },
+                error: function(err) {
+                    
+                },
+            });
         }
 
         self.fetchAndUpdateCartProducts = function () {

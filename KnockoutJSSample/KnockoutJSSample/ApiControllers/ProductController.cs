@@ -16,7 +16,7 @@ using Repository.Repositories;
 namespace KnockoutJSSample.ApiControllers
 {
     [RoutePrefix("api/product")]
-    public class ProductApiController : ApiController
+    public class ProductController : ApiController
     {
         private readonly ProductRepository _repository = new ProductRepository();
         // GET api/<controller>

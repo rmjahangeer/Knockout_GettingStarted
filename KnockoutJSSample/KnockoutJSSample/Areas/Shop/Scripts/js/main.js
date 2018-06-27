@@ -28,6 +28,7 @@
                 existingProduct.Quantity += 1;
             } else {
                 item.Quantity = 1;
+                item.ProductId = item.Id;
                 products.push(item);
             }
 
@@ -58,6 +59,15 @@
         }
 
 
+    }
+
+    window.spinner = {
+        show: function () {
+            ko.contextFor($('#top-nav')[0]).$data.loadingData(true);
+        },
+        hide: function () {
+            ko.contextFor($('#top-nav')[0]).$data.loadingData(false);
+        }
     }
 })(ko);
 

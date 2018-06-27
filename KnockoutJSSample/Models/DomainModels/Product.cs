@@ -20,5 +20,6 @@ namespace Models.DomainModels
     
         public virtual Category Category { get; set; }
         public virtual ICollection<ProductImage> ProductImages { get; set; }
+        public virtual ICollection<PurchaseHistory> PurchaseHistories { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -19,13 +20,33 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("My Knockout Sample", "Products", "Dashboard", new { area = "Admin" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("E-SHOP", "Products", "Dashboard", new { area = "Admin" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Products", "Products", "Dashboard", new { area = "Admin" }, null)</li>
                     <li>@Html.ActionLink("Categories", "Category", "Dashboard", new { area = "Admin" }, null)</li>
                 </ul>
+                @if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>@Html.ActionLink("Goto Shop", "Catalog", "Products", new { area = "Shop" }, null)</li>
+                            <li>
+                                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: new { area = "" }, htmlAttributes: new { title = "Manage" })
+                            </li>
+                            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                        </ul>
+                    }
+                }
+                else
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: new { area = "" }, htmlAttributes: new { id = "loginLink" })</li>
+                    </ul>
+                }
             </div>
         </div>
     </div>

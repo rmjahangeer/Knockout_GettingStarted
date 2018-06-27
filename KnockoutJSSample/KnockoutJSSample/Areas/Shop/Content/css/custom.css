@@ -47,3 +47,10 @@ select {
     clear: both;
     float: none;
 }
+
+.text-ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100px;
+}

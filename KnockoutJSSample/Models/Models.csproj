@@ -41,9 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ApplicationRoles.cs" />
     <Compile Include="Common\Enumerations\ProductOrderBy.cs" />
     <Compile Include="Common\GetPagedListRequest.cs" />
     <Compile Include="DomainModels\Category.cs" />
+    <Compile Include="DomainModels\PurchaseHistory.cs" />
     <Compile Include="DomainModels\Product.cs" />
     <Compile Include="DomainModels\ProductImage.cs" />
     <Compile Include="Mappers\Mappers.cs" />
@@ -51,6 +53,7 @@
     <Compile Include="RequestModels\ProductSearchRequest.cs" />
     <Compile Include="ResponseModels\SearchResponse.cs" />
     <Compile Include="WebModels\CategoryModel.cs" />
+    <Compile Include="WebModels\PurchaseHistoryModel.cs" />
     <Compile Include="WebModels\ProductImageModel.cs" />
     <Compile Include="WebModels\ProductModel.cs" />
   </ItemGroup>

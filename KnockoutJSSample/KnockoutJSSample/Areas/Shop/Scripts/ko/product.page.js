@@ -53,7 +53,7 @@
         
         // expose the load Method to trigger on page load
         self.searchProducts = function () {
-            ko.contextFor($('#top-nav')[0]).$data.loadingData(true);
+            window.spinner.show();
             var q = queryParams('q');
             var categoryId = queryParams('catId');
             ko.contextFor($('#top-nav')[0]).$data.searchQuery(q);
@@ -84,9 +84,9 @@
                 }
                 self.currentPage(searchParams.PageNo);
                 fireChangeCurrentPage = true;
-                ko.contextFor($('#top-nav')[0]).$data.loadingData(false);
+                window.spinner.hide();
             }).fail(function () {
-                ko.contextFor($('#top-nav')[0]).$data.loadingData(false);
+                window.spinner.hide();
             });
 
         }

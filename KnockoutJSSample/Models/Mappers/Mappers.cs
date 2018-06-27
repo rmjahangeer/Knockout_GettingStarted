@@ -98,5 +98,30 @@ namespace Models.Mappers
                 ProductId = source.ProductId
             };
         }
+
+        public static PurchaseHistoryModel Map(this PurchaseHistory source)
+        {
+            return new PurchaseHistoryModel
+            {
+                Id = source.Id,
+                ProductId = source.ProductId,
+                CreatedOn = source.CreatedOn,
+                Quantity = source.Quantity,
+                UserId = source.UserId
+                
+            };
+        }
+
+        public static PurchaseHistory Map(this PurchaseHistoryModel source)
+        {
+            return new PurchaseHistory
+            {
+                Id = source.Id,
+                ProductId = source.ProductId,
+                CreatedOn = source.CreatedOn,
+                Quantity = source.Quantity,
+                UserId = source.UserId
+            };
+        }
     }
 }

@@ -20,16 +20,16 @@ namespace KnockoutJSSample.ApiControllers
 {
     [Authorize]
     [RoutePrefix("api/Account")]
-    public class AccountApiController : ApiController
+    public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
-        public AccountApiController()
+        public AccountController()
         {
         }
 
-        public AccountApiController(ApplicationUserManager userManager,
+        public AccountController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;
