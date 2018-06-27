@@ -13,10 +13,10 @@ using Models.WebModels;
 using Newtonsoft.Json;
 using Repository.Repositories;
 
-namespace KnockoutJSSample.Controllers
+namespace KnockoutJSSample.ApiControllers
 {
     [RoutePrefix("api/product")]
-    public class ProductController : ApiController
+    public class ProductApiController : ApiController
     {
         private readonly ProductRepository _repository = new ProductRepository();
         // GET api/<controller>

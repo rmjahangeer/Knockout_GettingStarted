@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
+using Antlr.Runtime.Misc;
 using Repository;
 
-namespace KnockoutJSSample.Controllers
+namespace KnockoutJSSample.ApiControllers
 {
     [RoutePrefix("api/productImage")]
-    public class ProductImageController : ApiController
+    public class ProductImageApiController : ApiController
     {
         private readonly TodoAppEntities _repository = new TodoAppEntities();
 
@@ -16,6 +17,8 @@ namespace KnockoutJSSample.Controllers
             if (product != null)
                 return Ok();
             return NotFound();
+
+            
         }
     }
 }

@@ -6,30 +6,30 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using KnockoutJSSample.Models;
+using KnockoutJSSample.Providers;
+using KnockoutJSSample.Results;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using KnockoutJSSample.Models;
-using KnockoutJSSample.Providers;
-using KnockoutJSSample.Results;
 
-namespace KnockoutJSSample.Controllers
+namespace KnockoutJSSample.ApiControllers
 {
     [Authorize]
     [RoutePrefix("api/Account")]
-    public class AccountController : ApiController
+    public class AccountApiController : ApiController
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        public AccountApiController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager,
+        public AccountApiController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;
