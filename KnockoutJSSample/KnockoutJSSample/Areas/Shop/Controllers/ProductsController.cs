@@ -12,17 +12,18 @@ namespace KnockoutJSSample.Areas.Shop.Controllers
 
         public ActionResult View(int id)
         {
+            ViewBag.productId = id;
             return View();
         }
 
         public ActionResult Catalog(string q, int? catId, int? productId)
         {
-            ViewBag.SearchTerms = new
-            {
-                q,
-                catId,
-                productId
-            };
+            //ViewBag.SearchTerms = new
+            //{
+            //    q,
+            //    catId,
+            //    productId
+            //};
             return View();
         }
     }

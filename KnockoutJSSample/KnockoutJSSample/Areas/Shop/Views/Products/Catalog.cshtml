@@ -196,7 +196,7 @@
                                             <span>New</span>
                                             <span class="sale">-20%</span>
                                         </div>*@
-                                    <a data-bind="attr:{href:'@Url.Action("View", "Products")/' + Id}" class="main-btn quick-view">
+                                    <a data-bind="attr:{href:'@Url.Action("View", "Products", new { area = "Shop"})/' + Id}" class="main-btn quick-view">
                                         <i class="fa fa-search-plus"></i> View
                                     </a>
                                     <img @*src="~/Areas/Shop/Content/img/product01.jpg"*@ data-bind="attr:{src:Image}" alt="">

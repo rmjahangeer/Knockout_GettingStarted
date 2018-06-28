@@ -49,6 +49,15 @@ namespace KnockoutJSSample.ApiControllers
             var product = response?.Map();
             if (product == null)
                 return NotFound();
+
+            if (!product.ProductImages.Any())
+            {
+                product.ProductImages.Add(new ProductImageModel
+                {
+                    Image = product.Image,
+                    ProductId = product.Id
+                });
+            }
             return Ok(product);
         }
 

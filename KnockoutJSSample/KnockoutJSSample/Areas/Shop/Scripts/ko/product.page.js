@@ -1,101 +1,55 @@
-﻿(function ($, ko) {
+﻿/// <reference path="~/Scripts/jquery-3.3.1.js" />
+/// <reference path="~/Areas/Shop/Scripts/js/main.js" />
+/// <reference path="~/Scripts/knockout.mapping-latest.js" />
+/// <reference path="~/Scripts/knockout-3.4.2.js" />
+(function ($, ko) {
     var ViewModel = function () {
         // save reference of `this`
         var self = this;
-        var fireChangeCurrentPage = false;
-        // observable list of products to bind on list view 
-        self.products = ko.observableArray([]);
-        // to hide/show the spinner
-        self.loadingData = ko.observable(true);
+        // observable of products to bind on view 
+        self.product = ko.observable();
 
-        // search input field model
-        self.resultsQuery = ko.observable('');
 
-        self.sortDirection = ko.observable(true);
-        self.changeSortDirection = function () {
-            self.sortDirection(!self.sortDirection());
-            self.searchProducts();
-        };
-        self.sortBy = ko.observable(0);
-        self.sortBy.subscribe(function () {
-            self.searchProducts();
-        });
-        self.sortingOptions = ko.observableArray([
-            { key: 'Name', value: 0 },
-            { key: 'Category', value: 1 },
-            { key: 'Price', value: 2 },
-            { key: 'New In', value: 3 }
-        ]);
-
-        self.pageSize = ko.observable(10);
-        self.pageSize.subscribe(function () {
-            self.searchProducts();
-            self.currentPage(1);
-        });
-        self.showOptions = ko.observableArray([
-            { key: '10', value: 10 },
-            { key: '20', value: 20 },
-            { key: '30', value: 30 }
-        ]);
-
-        self.currentPage = ko.observable(1);
-        self.currentPage.subscribe(function () {
-            if (fireChangeCurrentPage)
-                self.searchProducts();
-        });
-        self.pages = ko.observableArray([
-            { key: ' 1', value: 1 }
-        ]);
-
-        self.addToCart = function(item) {
-            window.cart.addToCart(item);
+        self.addToCart = function (item) {
+            window.cart.addToCart(ko.mapping.toJS(item));
         }
-        
-        // expose the load Method to trigger on page load
-        self.searchProducts = function () {
-            window.spinner.show();
-            var q = queryParams('q');
-            var categoryId = queryParams('catId');
-            ko.contextFor($('#top-nav')[0]).$data.searchQuery(q);
-            self.resultsQuery(q);
-            var searchParams = {
-                Name: q,
-                CategoryId: categoryId,
-                SortBy: self.sortBy(),
-                PageSize: self.pageSize(),
-                IsAsc: self.sortDirection(),
-                PageNo: self.currentPage()
-            };
 
-            $.getJSON('/api/product/search', searchParams).done(function (data) {
+        // expose the load Method to trigger on page load
+        self.getProduct = function () {
+            $.getJSON('/api/product/' + window.productId).done(function (data) {
                 console.log('api category', data);
-                self.products([]);
-                data.data.forEach(function (x) {
-                    self.products.push(x);
-                });
-                fireChangeCurrentPage = false;
-                self.pages([]);
-                var pages = Math.floor((data.recordsFiltered + self.pageSize() - 1) / self.pageSize());
-                for (var i = 1; i <= pages; i++) {
-                    self.pages.push({
-                        key: i.toString(),
-                        value: i
-                    });
-                }
-                self.currentPage(searchParams.PageNo);
-                fireChangeCurrentPage = true;
+                data.Quantity = 1;
+                self.product(ko.mapping.fromJS(data));
                 window.spinner.hide();
+                setTimeout(function () {
+                    // PRODUCT DETAILS SLICK
+                    $('#product-main-view').slick({
+                        infinite: true,
+                        speed: 300,
+                        dots: false,
+                        arrows: true,
+                        fade: true,
+                        asNavFor: '#product-view',
+                    });
+                    if (data.ProductImages.length > 1)
+                        $('#product-view').slick({
+                            slidesToShow: data.ProductImages.length <= 1 ? 1 : 3,
+                            slidesToScroll: 1,
+                            arrows: true,
+                            centerMode: true,
+                            focusOnSelect: true,
+                            asNavFor: '#product-main-view',
+                        });
+                }, 100);
             }).fail(function () {
                 window.spinner.hide();
             });
 
         }
-
-        if (window.location.href.indexOf(window.searchPage) !== -1)
-            self.searchProducts();
+        self.getProduct();
     };
 
-    ko.applyBindings(new ViewModel(), $('#search-page')[0]);
+    ko.applyBindings(new ViewModel(), $('#product-page')[0]);
 
 })($, ko);
 

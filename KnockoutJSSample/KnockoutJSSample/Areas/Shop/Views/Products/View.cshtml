@@ -1,19 +1,24 @@
 ﻿
 @{
     ViewBag.Title = "View";
+    ViewBag.PageId = "product-page";
 }
 @section component
 {
+    <script>
+        window.productId = '@ViewBag.productId';
+    </script>
     <script src="~/Areas/Shop/Scripts/ko/product.page.js"></script>
 }
+<!-- ko with : product -->
 <!-- BREADCRUMB -->
 <div id="breadcrumb">
     <div class="container">
         <ul class="breadcrumb">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Products</a></li>
-            <li><a href="#">Category</a></li>
-            <li class="active" data-bind="text : product().Name"></li>
+            <li><a href="@Url.Action("Index","Home",new {area = "Shop"})">Home</a></li>
+            <li><a href="@Url.Action("Catalog","Products",new {area = "Shop"})">Products</a></li>
+            <li><a data-bind="attr : { href : '@Url.Action("Catalog","Products",new {area = "Shop"})?catId=' + CategoryId()}">Category</a></li>
+            <li class="active" data-bind="text : Name"></li>
         </ul>
     </div>
 </div>
@@ -28,33 +33,21 @@
             <div class="product product-details clearfix">
                 <div class="col-md-6">
                     <div id="product-main-view">
+                        <!--ko foreach : ProductImages-->
                         <div class="product-view">
-                            <img src="~/Areas/Shop/Content/img/main-product01.jpg" alt="">
+                            <img data-bind="attr:{src:Image}" alt="">
                         </div>
-                        <div class="product-view">
-                            <img src="~/Areas/Shop/Content/img/main-product02.jpg" alt="">
-                        </div>
-                        <div class="product-view">
-                            <img src="~/Areas/Shop/Content/img/main-product03.jpg" alt="">
-                        </div>
-                        <div class="product-view">
-                            <img src="~/Areas/Shop/Content/img/main-product04.jpg" alt="">
-                        </div>
+                        <!-- /ko -->
                     </div>
+                    <!--ko if : ProductImages().length > 2-->
                     <div id="product-view">
+                        <!--ko foreach : ProductImages-->
                         <div class="product-view">
-                            <img src="~/Areas/Shop/Content/img/thumb-product01.jpg" alt="">
+                            <img data-bind="attr:{src:Image}" alt="">
                         </div>
-                        <div class="product-view">
-                            <img src="~/Areas/Shop/Content/img/thumb-product02.jpg" alt="">
-                        </div>
-                        <div class="product-view">
-                            <img src="~/Areas/Shop/Content/img/thumb-product03.jpg" alt="">
-                        </div>
-                        <div class="product-view">
-                            <img src="~/Areas/Shop/Content/img/thumb-product04.jpg" alt="">
-                        </div>
+                        <!-- /ko -->
                     </div>
+                    <!-- /ko -->
                 </div>
                 <div class="col-md-6">
                     <div class="product-body">
@@ -62,8 +55,8 @@
                             <span>New</span>
                             <span class="sale">-20%</span>
                         </div>
-                        <h2 class="product-name">Product Name Goes Here</h2>
-                        <h3 class="product-price">$32.50 <del class="product-old-price">$45.00</del></h3>
+                        <h2 class="product-name" data-bind="text : Name">Product Name Goes Here</h2>
+                        <h3 class="product-price" data-bind="text : Price">$32.50 @*<del class="product-old-price">$45.00</del>*@</h3>
                         <div>
                             <div class="product-rating">
                                 <i class="fa fa-star"></i>
@@ -76,7 +69,7 @@
                         </div>
                         <p><strong>Availability:</strong> In Stock</p>
                         <p><strong>Brand:</strong> E-SHOP</p>
-                        <p>
+                        <p data-bind="text : Description">
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
                             dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                         </p>
@@ -99,9 +92,9 @@
                         <div class="product-btns">
                             <div class="qty-input">
                                 <span class="text-uppercase">QTY: </span>
-                                <input class="input" type="number">
+                                <input class="input" min="1" type="number" data-bind="textInput : Quantity">
                             </div>
-                            <button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                            <button class="primary-btn add-to-cart" data-bind="click : $root.addToCart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
                             <div class="pull-right">
                                 <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
                                 <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
@@ -119,7 +112,7 @@
                         </ul>
                         <div class="tab-content">
                             <div id="tab1" class="tab-pane fade in active">
-                                <p>
+                                <p data-bind="text : Description">
                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
                                     irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                                 </p>
@@ -375,5 +368,8 @@
     <!-- /container -->
 </div>
 <!-- /section -->
+
+
+<!-- /ko -->
 
 

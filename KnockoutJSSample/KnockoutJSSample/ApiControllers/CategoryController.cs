@@ -55,6 +55,7 @@ namespace KnockoutJSSample.ApiControllers
             if (category != null)
             {
                 category.Name = model.Name;
+                category.ParentId = model.ParentId;
                 _db.Categories.AddOrUpdate(category);
                 await _db.SaveChangesAsync();
                 return Ok();

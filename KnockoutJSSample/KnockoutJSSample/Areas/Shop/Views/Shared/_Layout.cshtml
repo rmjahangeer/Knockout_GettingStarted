@@ -46,7 +46,9 @@
         @Html.Partial("Partials/_Categories")
     </div>
 
-    @RenderBody()
+    <div id="@ViewBag.PageId">
+        @RenderBody()
+    </div>
     <!-- FOOTER -->
     @Html.Partial("Partials/_Footer")
     <!-- /FOOTER -->
@@ -63,10 +65,11 @@
     @Scripts.Render("~/bundles/bootstrap")
     <!-- jQuery Plugins -->
     @*<script src="~/Areas/Shop/Scripts/js/jquery.min.js"></script>*@
-    <script src="/scripts/jquery-ui-1.12.1.js" type="text/javascript"></script>
-    <script src="/scripts/knockout-3.4.2.js" type="text/javascript"></script>
+    <script src="~/scripts/jquery-ui-1.12.1.js" type="text/javascript"></script>
+    <script src="~/scripts/knockout-3.4.2.js" type="text/javascript"></script>
+    <script src="~/Scripts/custom.ko.bindings.js"></script>
     <script src="~/Scripts/knockout.mapping-latest.js"></script>
-    <script src="/scripts/select2.full.js"></script>
+    <script src="~/scripts/select2.full.js"></script>
     <script src="~/Scripts/underscore-min.js"></script>
     @*<script src="~/Areas/Shop/Scripts/js/bootstrap.min.js"></script>*@
     <script src="~/Areas/Shop/Scripts/js/slick.min.js"></script>

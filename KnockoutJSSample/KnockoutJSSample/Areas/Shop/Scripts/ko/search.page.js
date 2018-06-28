@@ -1,4 +1,8 @@
-﻿(function ($, ko) {
+﻿/// <reference path="jquery-3.3.1.js" />
+/// <reference path="../areas/shop/scripts/js/main.js" />
+/// <reference path="knockout.mapping-latest.js" />
+/// <reference path="knockout-3.4.2.js" />
+(function ($, ko) {
     var ViewModel = function () {
         // save reference of `this`
         var self = this;

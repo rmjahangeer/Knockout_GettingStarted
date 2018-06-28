@@ -5,7 +5,7 @@
     <script>
         window.view = 'Index';
     </script>
-    <script src="~/App_Scripts/category.js" type="text/javascript"></script>
+    <script src="~/Areas/Admin/Scripts/category.js" type="text/javascript"></script>
 }
 
 <div class="well well-lg">
@@ -27,12 +27,18 @@
                 <i data-bind="visible : (sortParams().sort() == 'name' && !sortParams().asc())" class="glyphicon glyphicon-arrow-down text-primary"></i>
                 <i data-bind="visible : sortParams().sort() == 'name' && sortParams().asc()"    class="glyphicon glyphicon-arrow-up text-primary"></i>
             </th>
+            <th class="sortable" data-bind="click : sort.bind($data, 'parent', sortParams())">
+                Parent Category 
+                <i data-bind="visible : (sortParams().sort() == 'parent' && !sortParams().asc())" class="glyphicon glyphicon-arrow-down text-primary"></i>
+                <i data-bind="visible : sortParams().sort() == 'parent' && sortParams().asc()"    class="glyphicon glyphicon-arrow-up text-primary"></i>
+            </th>
         </tr>
         </thead>
         <tbody data-bind="foreach : categories">
         <tr>
             <td><a data-bind="attr : { href : '@Url.Action("AddCategory")/' + Id, title : 'Edit ' + Name }, text : Id"></a></td>
             <td data-bind="text : Name"></td>
+            <td data-bind="text : ParentCategory"></td>
             <td>
                 <button class="btn btn-group-sm btn-danger" data-bind="click : remove">
                     <i class="glyphicon glyphicon-trash"></i>

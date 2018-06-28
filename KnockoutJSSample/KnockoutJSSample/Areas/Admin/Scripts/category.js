@@ -1,4 +1,9 @@
-﻿(function ($, ko) {
+﻿/// <reference path="~/Scripts/jquery-3.3.1.js" />
+/// <reference path="~/Areas/Shop/Scripts/js/main.js" />
+/// <reference path="~/Scripts/knockout.mapping-latest.js" />
+/// <reference path="~/Scripts/knockout-3.4.2.js" />
+/// <reference path="~/Scripts/underscore-min.js" />
+(function ($, ko) {
     var url = '/api/category';
     var ViewModel = function () {
         // save reference of `this`
@@ -23,7 +28,7 @@
             value = value.toLowerCase();
             var filteredList = categories.filter(function (x) {
                 return (x.Id.toString().toLowerCase().indexOf(value) !== -1 ||
-                    x.Name.toLowerCase().indexOf(value) !== -1);
+                    x.Name.toLowerCase().indexOf(value) !== -1 || (x.ParentCategory ? x.ParentCategory.toLowerCase().indexOf(value) : -1) !== -1);
             });
             self.categories(filteredList);
         });
@@ -60,6 +65,10 @@
                 break;
             case 'name':
                 var list = _.orderBy(self.categories(), 'Name', asc.dir());
+                self.categories(list);
+                break;
+            case 'parent':
+                var list = _.orderBy(self.categories(), 'ParentCategory', asc.dir());
                 self.categories(list);
                 break;
 

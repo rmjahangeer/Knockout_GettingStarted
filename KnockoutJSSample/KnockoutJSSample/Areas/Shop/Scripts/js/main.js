@@ -1,6 +1,6 @@
-/// <reference path="jquery-3.3.1.js" />
-/// <reference path="knockout.mapping-latest.js" />
-/// <reference path="knockout-3.4.2.js" />
+/// <reference path="~/Scripts/jquery-3.3.1.js" />
+/// <reference path="~/Scripts/knockout-3.4.2.js" />
+/// <reference path="~/Scripts/knockout.mapping-latest.js" />
 
 (function (ko) {
     window.queryParams = function (variable) {
@@ -22,12 +22,15 @@
         },
 
         addToCart: function (item) {
+            if (!item.Quantity) {
+                item.Quantity = 1;
+            }
             var products = localStorage.getItem('cart_products') ? JSON.parse(localStorage.getItem('cart_products')) : [];
             var existingProduct = products.find(function (x) { return x.Id === item.Id });
             if (existingProduct) {
-                existingProduct.Quantity += 1;
+                existingProduct.Quantity += parseInt(item.Quantity);
             } else {
-                item.Quantity = 1;
+                item.Quantity = parseInt(item.Quantity);
                 item.ProductId = item.Id;
                 products.push(item);
             }
@@ -171,25 +174,6 @@
               }
           },
         ]
-    });
-
-    // PRODUCT DETAILS SLICK
-    $('#product-main-view').slick({
-        infinite: true,
-        speed: 300,
-        dots: false,
-        arrows: true,
-        fade: true,
-        asNavFor: '#product-view',
-    });
-
-    $('#product-view').slick({
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        arrows: true,
-        centerMode: true,
-        focusOnSelect: true,
-        asNavFor: '#product-main-view',
     });
 
     // PRODUCT ZOOM

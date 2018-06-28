@@ -236,10 +236,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Scripts\category.js" />
-    <Content Include="App_Scripts\category.create.js" />
-    <Content Include="App_Scripts\products.create.js" />
-    <Content Include="App_Scripts\products.js" />
+    <Content Include="Areas\Admin\Scripts\category.js" />
+    <Content Include="Areas\Admin\Scripts\category.create.js" />
+    <Content Include="Areas\Admin\Scripts\products.create.js" />
+    <Content Include="Areas\Admin\Scripts\products.js" />
     <Content Include="Areas\Shop\Content\css\custom.css" />
     <Content Include="Areas\Shop\Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Areas\Shop\Content\fonts\slick.svg" />
@@ -277,6 +277,7 @@
     <Content Include="Areas\Shop\Content\img\thumb-product03.jpg" />
     <Content Include="Areas\Shop\Content\img\thumb-product04.jpg" />
     <Content Include="Areas\Shop\Scripts\js\bootstrap.min.js" />
+    <Content Include="Scripts\custom.ko.bindings.js" />
     <Content Include="Areas\Shop\Scripts\js\jquery.min.js" />
     <Content Include="Areas\Shop\Scripts\js\jquery.zoom.min.js" />
     <Content Include="Areas\Shop\Scripts\js\main.js" />
@@ -453,6 +454,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="App_Scripts\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Shop\Models\" />
     <Folder Include="Uploads\" />
