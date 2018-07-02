@@ -22,14 +22,6 @@
             return '$' + subTotal;
         });
 
-        self.placeOrder = function () {
-            if (confirm('Are you sure to checkout with these details?')) {
-                window.cart.clear();
-                self.fetchAndUpdateCartProducts();
-                alert('Thank you for shopping with us.');
-            }
-        }
-
         self.removeProduct = function (item) {
             window.cart.remove(ko.mapping.toJS(item));
             self.fetchAndUpdateCartProducts();
@@ -37,10 +29,17 @@
 
         self.placeOrder = function () {
             if (!window.isUserLoggedIn) {
-                window.location.href = window.loginPage + window.checkoutPage;
+                window.location.href = window.loginPage + window.cartPage;
                 return;
+            } else {
+                if (confirm('Are you sure to checkout with these details?')) {
+                    //window.cart.clear();
+                    //self.fetchAndUpdateCartProducts();
+                    //alert('Thank you for shopping with us.');
+                    window.location.href = window.checkoutPage;
+                }
             }
-            $.ajax({
+            /*$.ajax({
                 url: '/api/purchasehistory/' + window.userId,
                 method: 'post',
                 contentType: 'application/json',
@@ -59,7 +58,7 @@
                 error: function(err) {
                     
                 },
-            });
+            });*/
         }
 
         self.fetchAndUpdateCartProducts = function () {

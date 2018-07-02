@@ -48,6 +48,26 @@
 
     <div id="@ViewBag.PageId">
         @RenderBody()
+        <div class="notice-wrapper">
+            @{
+                string flash = TempData["Flash"] as string;
+                if (flash != null)
+                {
+                    <style>
+                        .alert-dismissable .close, .alert-dismissible .close {
+                            position: relative;
+                            top: -2px;
+                            color: inherit;
+                        }
+                    </style>
+                    <div class="show notice error notice-error alert alert-dismissible" style="position: fixed; top: 0">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <span class="notice-message">@flash</span>
+
+                    </div>
+                }   
+            }
+        </div>
     </div>
     <!-- FOOTER -->
     @Html.Partial("Partials/_Footer")
@@ -58,7 +78,8 @@
         window.username = '@User.Identity.GetUserName()';
         window.userId = '@User.Identity.GetUserId()';
         window.loginPage = '@Url.Action("Login","Account",new {area=""})?returnUrl=';
-        window.checkoutPage = '@Url.Action("Index","Cart",new {area="Shop"})';
+        window.cartPage = '@Url.Action("Index","Cart",new {area="Shop"})';
+        window.checkoutPage = '@Url.Action("New","Checkouts",new {area="Shop"})';
         window.homePage = '@Url.Action("Index","Home",new {area="Shop"})';
     </script>
     @Scripts.Render("~/bundles/jquery")
