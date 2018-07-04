@@ -80,7 +80,7 @@
                         <!-- /ko -->
                         
                         <!-- ko if: Children.length > 0 -->
-                        <a class="dropdown-toggle" data-toggle="dropdown">
+                        <a data-bind="attr : { href : '@Url.Action("Catalog","Products")?catId=' + Id}" class="dropdown-toggle" data-toggle="dropdown">
                             <span data-bind="text : Name"></span>
                             <i class="fa fa-angle-right"></i>
                         </a>
@@ -89,7 +89,9 @@
                                 <div class="col-md-4">
                                     <ul class="list-links">
                                         <li>
-                                            <h3 class="list-links-title" data-bind="text : Name"></h3>
+                                            <h3 class="list-links-title" data-bind="">
+                                                <a data-bind="text : Name, attr : { href : '@Url.Action("Catalog","Products")?catId=' + Id}"></a>
+                                            </h3>
                                         </li>
                                         <!-- ko foreach: Children -->
                                         <li><a data-bind="text : Name, attr : { href : '@Url.Action("Catalog","Products")?catId=' + Id}"></a></li>
