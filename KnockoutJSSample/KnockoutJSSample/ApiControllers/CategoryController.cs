@@ -10,7 +10,7 @@ using Repository;
 namespace KnockoutJSSample.ApiControllers
 {
     [RoutePrefix("api/category")]
-    public class CategoryController : ApiController
+    public class CategoryController : BaseApiController
     {
         private readonly TodoAppEntities _db = new TodoAppEntities();
         // GET api/<controller>

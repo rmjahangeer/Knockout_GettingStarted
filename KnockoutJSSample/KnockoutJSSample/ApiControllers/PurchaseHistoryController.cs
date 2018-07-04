@@ -13,7 +13,7 @@ using Repository;
 namespace KnockoutJSSample.ApiControllers
 {
     [RoutePrefix("api/PurchaseHistory")]
-    public class PurchaseHistoryController : ApiController
+    public class PurchaseHistoryController : BaseApiController
     {
         private readonly TodoAppEntities _db = new TodoAppEntities();
         // GET api/<controller>
@@ -53,7 +53,7 @@ namespace KnockoutJSSample.ApiControllers
                 x.CreatedOn = createdOn;
                 x.UserId = userId;
             });
-            _db.PurchaseHistories.AddRange(model.Select(x=>x.Map()));
+            _db.PurchaseHistories.AddRange(model.Select(x => x.Map()));
             await _db.SaveChangesAsync();
             return Ok();
         }

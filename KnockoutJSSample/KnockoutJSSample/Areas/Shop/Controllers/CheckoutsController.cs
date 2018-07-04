@@ -2,14 +2,20 @@
 using System.Linq;
 using System.Web.Mvc;
 using Braintree;
+using KnockoutJSSample.Filter;
 using KnockoutJSSample.Models;
+using log4net;
+using Logging;
+using Microsoft.AspNet.Identity;
 using Models;
+using Newtonsoft.Json;
 
 namespace KnockoutJSSample.Areas.Shop.Controllers
 {
     public class CheckoutsController : Controller
     {
         public IBraintreeConfiguration Config = new BraintreeConfiguration();
+        private static readonly ILog Log = LogHelper.GetLogger();
 
         public static readonly TransactionStatus[] TransactionSuccessStatuses = {
                                                                                     TransactionStatus.AUTHORIZED,
@@ -38,8 +44,9 @@ namespace KnockoutJSSample.Areas.Shop.Controllers
             {
                 amount = Convert.ToDecimal(model.Amount);
             }
-            catch (FormatException)
+            catch (FormatException e)
             {
+                LogHelper.GetLogger().Error("Error: 81503: Amount is an invalid format.", e);
                 TempData["Flash"] = "Error: 81503: Amount is an invalid format.";
                 return RedirectToAction("New");
             }
@@ -59,6 +66,7 @@ namespace KnockoutJSSample.Areas.Shop.Controllers
             if (result.IsSuccess())
             {
                 Transaction transaction = result.Target;
+                Log.Error($"Error occured while makeing payment transaction for user : {User.Identity.GetUserName()}", new EshopException(JsonConvert.SerializeObject(transaction)));
                 return RedirectToAction("Show", new { id = transaction.Id });
             }
             else if (result.Transaction != null)
@@ -72,6 +80,7 @@ namespace KnockoutJSSample.Areas.Shop.Controllers
                 {
                     errorMessages += "Error: " + (int)error.Code + " - " + error.Message + "\n";
                 }
+                Log.Error($"Error occured while makeing payment transaction for user : {User.Identity.GetUserName()}", new EshopException(JsonConvert.SerializeObject(errorMessages)));
                 TempData["Flash"] = errorMessages;
                 return RedirectToAction("New");
             }

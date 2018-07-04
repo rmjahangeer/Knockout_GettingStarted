@@ -2,6 +2,7 @@
 using Owin;
 
 [assembly: OwinStartup(typeof(KnockoutJSSample.Startup))]
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
 namespace KnockoutJSSample
 {

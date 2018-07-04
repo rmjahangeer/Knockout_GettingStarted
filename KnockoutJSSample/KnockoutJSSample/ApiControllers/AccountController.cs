@@ -20,7 +20,7 @@ namespace KnockoutJSSample.ApiControllers
 {
     [Authorize]
     [RoutePrefix("api/Account")]
-    public class AccountController : ApiController
+    public class AccountController : BaseApiController
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
@@ -124,7 +124,7 @@ namespace KnockoutJSSample.ApiControllers
 
             IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                 model.NewPassword);
-            
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -257,9 +257,9 @@ namespace KnockoutJSSample.ApiControllers
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
+
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                   OAuthDefaults.AuthenticationType);
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
@@ -367,7 +367,7 @@ namespace KnockoutJSSample.ApiControllers
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
             if (!result.Succeeded)
             {
-                return GetErrorResult(result); 
+                return GetErrorResult(result);
             }
             return Ok();
         }

@@ -21,6 +21,7 @@ namespace KnockoutJSSample
 
             GlobalConfiguration.Configuration.Formatters.Clear();
             GlobalConfiguration.Configuration.Formatters.Add(new JsonMediaTypeFormatter());
+            log4net.Config.XmlConfigurator.Configure();
         }
 
         protected void Application_Error(object sender, EventArgs e)

@@ -49,6 +49,10 @@
       <HintPath>..\packages\Braintree.4.4.0\lib\net452\Braintree.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -178,6 +182,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\BaseApiController.cs" />
     <Compile Include="ApiControllers\PurchaseHistoryController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -228,6 +233,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageNotFoundController.cs" />
+    <Compile Include="Filter\ApiException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -442,6 +448,7 @@
     <Content Include="App_Themes\fonts\open-sans\OpenSans-Semibold-webfont.eot" />
     <Content Include="App_Themes\fonts\open-sans\OpenSans-Semibold-webfont.ttf" />
     <Content Include="App_Themes\fonts\open-sans\OpenSans-Semibold-webfont.woff" />
+    <Content Include="log4net.config" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -465,7 +472,9 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\select2.full.js" />
     <Content Include="Scripts\underscore-min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -523,6 +532,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Logging\Logging.csproj">
+      <Project>{0722DB46-B27D-4C87-A989-581C94131F1D}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{2AFF7CCF-7D3D-4A82-A9EE-89701C40D26C}</Project>
       <Name>Models</Name>

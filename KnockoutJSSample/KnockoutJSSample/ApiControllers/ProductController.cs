@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using log4net;
+using Logging;
 using Microsoft.AspNet.Identity;
 using Models.Mappers;
 using Models.RequestModels;
@@ -16,8 +18,9 @@ using Repository.Repositories;
 namespace KnockoutJSSample.ApiControllers
 {
     [RoutePrefix("api/product")]
-    public class ProductController : ApiController
+    public class ProductController : BaseApiController
     {
+        private static readonly ILog Log = LogHelper.GetLogger();
         private readonly ProductRepository _repository = new ProductRepository();
         // GET api/<controller>
         public async Task<IHttpActionResult> Get()
@@ -83,6 +86,7 @@ namespace KnockoutJSSample.ApiControllers
             model.CreatedOn = DateTime.UtcNow;
             model.CreatedBy = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : "";
             await _repository.SaveOrUpdate(model.Map());
+            Log.Info($"New product added : {model.Name}");
             return Ok();
         }
 
