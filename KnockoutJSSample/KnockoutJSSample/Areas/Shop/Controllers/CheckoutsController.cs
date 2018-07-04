@@ -66,7 +66,7 @@ namespace KnockoutJSSample.Areas.Shop.Controllers
             if (result.IsSuccess())
             {
                 Transaction transaction = result.Target;
-                Log.Error($"Error occured while makeing payment transaction for user : {User.Identity.GetUserName()}", new EshopException(JsonConvert.SerializeObject(transaction)));
+                Log.Info($"Transaction Successful for user : {User.Identity.GetUserName()}");
                 return RedirectToAction("Show", new { id = transaction.Id });
             }
             else if (result.Transaction != null)
